@@ -1,0 +1,43 @@
+name: corona
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  flutter_icons: ^1.0.0+1
+  provider: ^4.0.4
+  easy_localization: ^1.4.1 
+  superellipse_shape: ^0.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+  assets:
+   - assets/langs/
+   - assets/images/
+ 
+  fonts:
+    - family: Almarai
+      fonts:
+        - asset: assets/fonts/Almarai-Regular.ttf
+        - asset: assets/fonts/Almarai-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Almarai-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Almarai-ExtraBold.ttf
+          weight: 800
+
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
