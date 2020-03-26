@@ -4,7 +4,7 @@ const  Color kPrimaryColor = Color(0xff00cf91);
 
 const Color kLightCardColor = Colors.white;
 
-const Color kPrimaryDarkColor = Color(0xff01142f);
+const Color kPrimaryDarkColor = Color(0xff1A1B25);
 
 const  Color kDarkCardColor = Color(0xff2b3595);
 

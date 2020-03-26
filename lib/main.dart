@@ -4,7 +4,7 @@ import 'package:corona/providers/theme_provider.dart';
 import 'package:corona/screens/home_page.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'dart:ui' as ui ;
 void main() {
   // TODO : read from shared prefrences
   return runApp(MultiProvider(
@@ -18,9 +18,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  
+  
   @override
+  
   Widget build(BuildContext context) {
+  
     var data = EasyLocalizationProvider.of(context).data;
+          print( ui.window.locale.languageCode);
 
     return Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
       return EasyLocalizationProvider(
@@ -33,10 +38,9 @@ class MyApp extends StatelessWidget {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             EasyLocalizationDelegate(
-              locale: data.locale,
+              locale:  Locale.fromSubtags(languageCode: ui.window.locale.languageCode),
               path: 'assets/langs',
               useOnlyLangCode: true,
-              // loadPath: 'https://raw.githubusercontent.com/aissat/easy_localization/master/example/resources/langs'
             ),
           ],
           supportedLocales: [
