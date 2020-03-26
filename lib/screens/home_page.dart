@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                         getData(countries[i].countryEn);
                       },
                       scrollController: FixedExtentScrollController(initialItem: egyptIndex),
-                      offAxisFraction: .2,
+                      offAxisFraction: .1,
                       diameterRatio: 1.1,
                       itemExtent: 50.0,
                       magnification: 1.4,

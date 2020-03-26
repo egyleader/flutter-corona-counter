@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 getData(String country) async {
+
+  if(country == "Palestin" ) country = "Israel" ;
+  
   final response = await http.get(
       'https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats?country=$country',
       headers: {
