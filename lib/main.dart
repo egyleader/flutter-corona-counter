@@ -1,3 +1,6 @@
+import 'dart:js';
+
+import 'package:corona/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:corona/providers/theme_provider.dart';
@@ -12,6 +15,7 @@ void main() {
       ChangeNotifierProvider<ThemeProvider>(
         create: (context) => ThemeProvider(isDarkMode: true),
       ),
+      ChangeNotifierProvider<DataProvider>(create: (context) => DataProvider())
     ],
     child: EasyLocalization(child: MyApp()),
   ));

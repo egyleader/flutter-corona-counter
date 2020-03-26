@@ -1,4 +1,5 @@
 import 'package:corona/const.dart';
+import 'package:corona/providers/data_provider.dart';
 import 'package:corona/providers/theme_provider.dart';
 import 'package:corona/services/code_to_emoji.dart';
 import 'package:corona/services/get_data.dart';
@@ -14,7 +15,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
-    var data = EasyLocalizationProvider.of(context).data;
+    DataProvider data = Provider.of<DataProvider>(context, listen: false);
+    var localeData = EasyLocalizationProvider.of(context).data;
     final String languageCode = Localizations.localeOf(context).languageCode;
     final width = MediaQuery.of(context).size.width - 20.0;
     final height = MediaQuery.of(context).size.height - 20.0;
@@ -24,7 +26,7 @@ class HomePage extends StatelessWidget {
         countries.indexWhere((country) => country.countryAr == "مصر");
     print(egyptIndex);
     return EasyLocalizationProvider(
-      data: data,
+      data: localeData,
       child: SafeArea(
         child: Scaffold(
             body: SafeArea(
@@ -51,9 +53,10 @@ class HomePage extends StatelessWidget {
                   height: height * 0.2,
                   child: CupertinoPicker(
                       onSelectedItemChanged: (i) {
-                        getData(countries[i].countryEn);
+                        data.getData(countries[i].countryEn);
                       },
-                      scrollController: FixedExtentScrollController(initialItem: egyptIndex),
+                      scrollController:
+                          FixedExtentScrollController(initialItem: egyptIndex),
                       offAxisFraction: .1,
                       diameterRatio: 1.1,
                       itemExtent: 50.0,
@@ -88,10 +91,10 @@ class HomePage extends StatelessWidget {
                     value: false,
                     onChanged: (value) {
                       if (languageCode == "ar") {
-                        data.changeLocale(
+                        localeData.changeLocale(
                             locale: Locale.fromSubtags(languageCode: "en"));
                       } else {
-                        data.changeLocale(
+                        localeData.changeLocale(
                             locale: Locale.fromSubtags(languageCode: "ar"));
                       }
                     }),
