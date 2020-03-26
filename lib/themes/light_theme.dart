@@ -5,6 +5,6 @@ import '../const.dart';
 final lightTheme = ThemeData.light().copyWith(
   primaryColor: kPrimaryColor,
   textTheme: TextTheme(
-    body1:TextStyle(fontFamily:'Almarai', color: kPrimaryDarkColor , fontSize: 24.0)
+    body1:TextStyle(fontFamily:'Almarai', color: kPrimaryDarkColor , fontSize: 20.0)
   ),
 );

@@ -1,5 +1,7 @@
 import 'package:corona/const.dart';
 import 'package:corona/providers/theme_provider.dart';
+import 'package:corona/services/code_to_emoji.dart';
+import 'package:corona/services/get_data.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,12 +15,14 @@ class HomePage extends StatelessWidget {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
     var data = EasyLocalizationProvider.of(context).data;
-    final String languageCode = Localizations.localeOf(context).languageCode ;
+    final String languageCode = Localizations.localeOf(context).languageCode;
     final width = MediaQuery.of(context).size.width - 20.0;
     final height = MediaQuery.of(context).size.height - 20.0;
 
     final List<Country> countries = Countries.countriesData();
-
+    final int egyptIndex =
+        countries.indexWhere((country) => country.countryAr == "مصر");
+    print(egyptIndex);
     return EasyLocalizationProvider(
       data: data,
       child: SafeArea(
@@ -46,20 +50,30 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: height * 0.2,
                   child: CupertinoPicker(
-                    onSelectedItemChanged: (item){},
+                      onSelectedItemChanged: (i) {
+                        getData(countries[i].countryEn);
+                      },
+                      scrollController: FixedExtentScrollController(initialItem: egyptIndex),
+                      offAxisFraction: .2,
+                      diameterRatio: 1.1,
                       itemExtent: 50.0,
-                      magnification: 1.7,
-                      backgroundColor: themeProvider.getTheme() == darkTheme ? kPrimaryDarkColor : Colors.white,
-                      squeeze: 2,
+                      magnification: 1.4,
+                      backgroundColor: themeProvider.getTheme() == darkTheme
+                          ? kPrimaryDarkColor
+                          : Colors.white,
+                      squeeze: 1.45,
                       useMagnifier: true,
                       looping: true,
                       children: countries
                           .map((country) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(languageCode == "en"
-                                ? '${country.countryEn} ${country.emoji}'
-                                : '${country.countryAr}  ${country.emoji}', style: Theme.of(context).textTheme.body1,),
-                          ))
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  languageCode == "en"
+                                      ? '${country.countryEn} ${codeToEmoji(country.code)}'
+                                      : '${country.countryAr}  ${codeToEmoji(country.code)}',
+                                  style: Theme.of(context).textTheme.body1,
+                                ),
+                              ))
                           .toList()),
                 ),
 
