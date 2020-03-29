@@ -1,15 +1,7 @@
 {
     "title": "Covid-19 Counter",
-    "total": "Total infections : ",
-        "trending": "Trending Now ",
-            "cardTitle": "alahqaaf",
-            "author": "’Mohammed elsharawy",
-            "selected": "Selected for you ",
-    "profile": {
-        "reset_password": {
-            "title": "Reset Password",
-            "username": "Username",
-            "password": "password"
-        }
-    }
+    "confirmed": "Total Infections",
+    "recovered": "Recovered",
+    "deaths": "Deaths",
+    "percent": "Death %"
 }

@@ -30,8 +30,10 @@ class HomePage extends StatelessWidget {
 
     int index = countries.indexWhere((country) => country.countryEn == "Egypt");
     CoronaData coronaData;
-    dataProvider.getData(countries[index].countryEn);
-    
+    coronaData == null
+        ? dataProvider.getData(countries[index].countryEn)
+        : coronaData = coronaData;
+
     return EasyLocalizationProvider(
       data: localeData,
       child: SafeArea(
@@ -90,21 +92,110 @@ class HomePage extends StatelessWidget {
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text(tr("total")),
-                    Text(dataProvider.coronaData == null
-                        ? "loading"
-                        : dataProvider.coronaData.confirmed.toString()),
+                    SuperellipseCard(
+                      color: themeProvider.isDark()
+                          ? kDarkCardColor
+                          : kLightCardColor,
+                      size: width * 0.45,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/confirmed.png',
+                            height: MediaQuery.of(context).size.height / 10,
+                          ),
+                          Text(tr("confirmed")),
+                          Text(
+                            dataProvider.coronaData == null
+                                ? "loading"
+                                : dataProvider.coronaData.confirmed.toString(),
+                            style: TextStyle(
+                                color: kPrimaryColor, 
+                                fontSize: width * 0.1),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SuperellipseCard(
+                      color: themeProvider.isDark()
+                          ? kDarkCardColor
+                          : kLightCardColor,
+                      size: width * 0.45,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/recovered.png',
+                            height: MediaQuery.of(context).size.height / 10,
+                          ),
+                          Text(tr("recovered")),
+                          Text(
+                            dataProvider.coronaData == null
+                                ? "loading"
+                                : dataProvider.coronaData.recovered.toString(),
+                            style: TextStyle(
+                                color: kPrimaryColor, fontSize: width * 0.1),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
 
-                SuperellipseCard(
-                  size: width * 0.45,
-                ),
                 Row(
-                  children: <Widget>[],
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    SuperellipseCard(
+                      color: themeProvider.isDark()
+                          ? kDarkCardColor
+                          : kLightCardColor,
+                      size: width * 0.45,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/deaths.png',
+                            height: MediaQuery.of(context).size.height / 10,
+                          ),
+                          Text(tr("deaths")),
+                          Text(
+                            dataProvider.coronaData == null
+                                ? "loading"
+                                : dataProvider.coronaData.deaths.toString(),
+                            style: TextStyle(
+                                color: kPrimaryColor, fontSize: width * 0.1),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SuperellipseCard(
+                      color: themeProvider.isDark()
+                          ? kDarkCardColor
+                          : kLightCardColor,
+                      size: width * 0.45,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/percent.png',
+                            height: MediaQuery.of(context).size.height / 10,
+                          ),
+                          Text(tr("percent")),
+                          Text(
+                            dataProvider.coronaData == null
+                                ? "loading"
+                                : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toString()} \%',
+                            style: TextStyle(
+                                color: kPrimaryColor, fontSize: width * 0.1),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
+
                 // switch for the dark theme with themeProvider
                 Switch(
                     value: themeProvider.getTheme() == darkTheme ? false : true,

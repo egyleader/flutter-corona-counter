@@ -19,22 +19,22 @@ class SuperellipseCard extends StatelessWidget {
   final ImageProvider image;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Material(
+    return Material(
 
-        color: color,
-        shape: SuperellipseShape(
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: image != null ? image : AssetImage('assets/images/logo-small.png'),
-                  fit: BoxFit.cover)),
-          width: size,
-          height: size,
+      color: color,
+      shape: SuperellipseShape(
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: image != null ? image : AssetImage('assets/images/logo-small.png'),
+                fit: BoxFit.cover)),
+        width: size,
+        height: size,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: child,
         ),
       ),
