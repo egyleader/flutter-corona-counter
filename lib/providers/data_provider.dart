@@ -1,9 +1,13 @@
+import 'package:corona/models/coronaData.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DataProvider extends ChangeNotifier {
-  getData(String country) async {
+  var _coronaData;
+   get coronaData => _coronaData;
+
+  Future<CoronaData> getData(String country) async {
     if (country == "Palestin") country = "Israel";
 
     final response = await http.get(
@@ -16,11 +20,21 @@ class DataProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
+       _coronaData = CoronaData(
+          country: data['data']['covid19Stats'][0]['country'],
+          confirmed: data['data']['covid19Stats'][0]['confirmed'],
+          recovered: data['data']['covid19Stats'][0]['recovered'],
+          deaths: data['data']['covid19Stats'][0]['deaths']);
+      print('Corona Status for ${coronaData.country} is:');
+      print(
+          'confirmed : ${coronaData.confirmed} , recovered : ${coronaData.recovered} , deaths: ${coronaData.deaths}');
       notifyListeners();
-      return data;
+      return coronaData;
     } else {
       print(response.statusCode);
       // throw Exception('Failed to load Data ');
     }
   }
+
+  Future parseData(Map<String, dynamic> rawdata) {}
 }

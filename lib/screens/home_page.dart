@@ -1,8 +1,9 @@
+import 'package:corona/components/superellipse_card.dart';
 import 'package:corona/const.dart';
+import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
 import 'package:corona/providers/theme_provider.dart';
 import 'package:corona/services/code_to_emoji.dart';
-import 'package:corona/services/get_data.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,20 +12,26 @@ import 'package:provider/provider.dart';
 import 'package:corona/models/country.dart';
 
 class HomePage extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
-    DataProvider data = Provider.of<DataProvider>(context, listen: false);
+
+    DataProvider dataProvider = Provider.of<DataProvider>(context);
+
     var localeData = EasyLocalizationProvider.of(context).data;
+
     final String languageCode = Localizations.localeOf(context).languageCode;
+
     final width = MediaQuery.of(context).size.width - 20.0;
+
     final height = MediaQuery.of(context).size.height - 20.0;
 
     final List<Country> countries = Countries.countriesData();
-    final int egyptIndex =
-        countries.indexWhere((country) => country.countryAr == "مصر");
-    print(egyptIndex);
+
+    int index = countries.indexWhere((country) => country.countryEn == "Egypt");
+    CoronaData coronaData;
+    dataProvider.getData(countries[index].countryEn);
+    
     return EasyLocalizationProvider(
       data: localeData,
       child: SafeArea(
@@ -52,11 +59,13 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: height * 0.2,
                   child: CupertinoPicker(
-                      onSelectedItemChanged: (i) {
-                        data.getData(countries[i].countryEn);
+                      onSelectedItemChanged: (i) async {
+                        index = i;
+                        coronaData =
+                            await dataProvider.getData(countries[i].countryEn);
                       },
                       scrollController:
-                          FixedExtentScrollController(initialItem: egyptIndex),
+                          FixedExtentScrollController(initialItem: index),
                       offAxisFraction: .1,
                       diameterRatio: 1.1,
                       itemExtent: 50.0,
@@ -80,6 +89,22 @@ class HomePage extends StatelessWidget {
                           .toList()),
                 ),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(tr("total")),
+                    Text(dataProvider.coronaData == null
+                        ? "loading"
+                        : dataProvider.coronaData.confirmed.toString()),
+                  ],
+                ),
+
+                SuperellipseCard(
+                  size: width * 0.45,
+                ),
+                Row(
+                  children: <Widget>[],
+                ),
                 // switch for the dark theme with themeProvider
                 Switch(
                     value: themeProvider.getTheme() == darkTheme ? false : true,

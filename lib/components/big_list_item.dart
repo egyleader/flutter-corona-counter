@@ -1,4 +1,4 @@
-import 'package:easy_localization/public.dart';
+
 import 'package:flutter/material.dart';
 import 'package:corona/components/superellipse_card.dart';
 

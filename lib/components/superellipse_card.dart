@@ -31,7 +31,7 @@ class SuperellipseCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: image != null ? image : 'assets/images/logo-small.png',
+                  image: image != null ? image : AssetImage('assets/images/logo-small.png'),
                   fit: BoxFit.cover)),
           width: size,
           height: size,
