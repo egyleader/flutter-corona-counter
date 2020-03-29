@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
-    print(ui.window.locale.languageCode);
+    // print(ui.window.locale.countryCode);
 
     return Consumer<ThemeProvider>(builder: (context, themeProvider, _) {
       return EasyLocalizationProvider(
@@ -47,9 +47,7 @@ class MyApp extends StatelessWidget {
             Locale.fromSubtags(languageCode: 'en'),
             Locale.fromSubtags(languageCode: 'ar'),
           ],
-          locale: data.locale == null
-              ? Localizations.localeOf(context)
-              : data.locale,
+          locale: Locale('ar'),
           home: HomePage(),
         ),
       );

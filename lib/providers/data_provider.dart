@@ -5,26 +5,24 @@ import 'package:http/http.dart' as http;
 
 class DataProvider extends ChangeNotifier {
   var _coronaData;
-   get coronaData => _coronaData;
+  get coronaData => _coronaData;
 
-  Future<CoronaData> getData(String country) async {
-    if (country == "Palestin") country = "Israel";
-
+  Future<CoronaData> getData(String code) async {
     final response = await http.get(
-        'https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats?country=$country',
+        'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',
         headers: {
-          'x-rapidapi-host': 'covid-19-coronavirus-statistics.p.rapidapi.com',
-          'x-rapidapi-key':
-              'bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471',
+          "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
+          "x-rapidapi-key": "bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471"
         });
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-       _coronaData = CoronaData(
-          country: data['data']['covid19Stats'][0]['country'],
-          confirmed: data['data']['covid19Stats'][0]['confirmed'],
-          recovered: data['data']['covid19Stats'][0]['recovered'],
-          deaths: data['data']['covid19Stats'][0]['deaths']);
+      List<dynamic> data = json.decode(response.body);
+      print(response.body);
+      _coronaData = CoronaData(
+          country: data[0]['country'],
+          confirmed: data[0]['confirmed'],
+          recovered: data[0]['recovered'],
+          deaths: data[0]['deaths']);
       print('Corona Status for ${coronaData.country} is:');
       print(
           'confirmed : ${coronaData.confirmed} , recovered : ${coronaData.recovered} , deaths: ${coronaData.deaths}');
@@ -35,6 +33,4 @@ class DataProvider extends ChangeNotifier {
       // throw Exception('Failed to load Data ');
     }
   }
-
-  Future parseData(Map<String, dynamic> rawdata) {}
 }

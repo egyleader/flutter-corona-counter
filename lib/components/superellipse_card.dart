@@ -27,10 +27,10 @@ class SuperellipseCard extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: image != null ? image : AssetImage('assets/images/logo-small.png'),
-                fit: BoxFit.cover)),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         image: image != null ? image : AssetImage('assets/images/logo.png'),
+        //         fit: BoxFit.cover)),
         width: size,
         height: size,
         child: Padding(

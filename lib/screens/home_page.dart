@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:corona/models/country.dart';
+import 'dart:ui' as ui;
 
 class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -28,16 +29,20 @@ class HomePage extends StatelessWidget {
 
     final List<Country> countries = Countries.countriesData();
 
-    int index = countries.indexWhere((country) => country.countryEn == "Egypt");
-    CoronaData coronaData;
-    coronaData == null
-        ? dataProvider.getData(countries[index].countryEn)
-        : coronaData = coronaData;
+    int index = countries
+        .indexWhere((country) => country.code == ui.window.locale.countryCode);
+
 
     return EasyLocalizationProvider(
       data: localeData,
       child: SafeArea(
         child: Scaffold(
+          drawer: Drawer(
+            child: ListView(children: <Widget>[
+              // DrawerHeader(child: Text('test'),
+              ListTile(title: Text('item1'), onTap: (){},),
+              ]),
+          ),
             body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -63,8 +68,7 @@ class HomePage extends StatelessWidget {
                   child: CupertinoPicker(
                       onSelectedItemChanged: (i) async {
                         index = i;
-                        coronaData =
-                            await dataProvider.getData(countries[i].countryEn);
+                         await dataProvider.getData(countries[i].code);
                       },
                       scrollController:
                           FixedExtentScrollController(initialItem: index),
@@ -112,8 +116,7 @@ class HomePage extends StatelessWidget {
                                 ? "loading"
                                 : dataProvider.coronaData.confirmed.toString(),
                             style: TextStyle(
-                                color: kPrimaryColor, 
-                                fontSize: width * 0.1),
+                                color: kPrimaryColor, fontSize: width * 0.1),
                           ),
                         ],
                       ),
@@ -186,7 +189,7 @@ class HomePage extends StatelessWidget {
                           Text(
                             dataProvider.coronaData == null
                                 ? "loading"
-                                : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toString()} \%',
+                                : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} \%',
                             style: TextStyle(
                                 color: kPrimaryColor, fontSize: width * 0.1),
                           ),
