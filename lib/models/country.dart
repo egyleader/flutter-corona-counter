@@ -6,7 +6,10 @@ class Country {
   final String flagUrl;
   final String code;
   Country({this.countryEn, this.countryAr, this.flagUrl, this.code});
+
 }
+
+
 
 class Countries {
   static List<Country> countriesData() {

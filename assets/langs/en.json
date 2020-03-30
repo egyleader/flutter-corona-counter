@@ -1,5 +1,6 @@
 {
     "title": "Covid-19 Counter",
+    "slogan": "#stayhome",
     "confirmed": "Total Infections",
     "recovered": "Recovered",
     "deaths": "Deaths",

@@ -8,14 +8,15 @@ class DataProvider extends ChangeNotifier {
   get coronaData => _coronaData;
 
   Future<CoronaData> getData(String code) async {
-    final response = await http.get(
-        'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',
-        headers: {
-          "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
-          "x-rapidapi-key": "bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471"
-        });
+    try {
+      final response = await http.get(
+          'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',
+          headers: {
+            "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
+            "x-rapidapi-key":
+                "bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471"
+          });
 
-    if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       print(response.body);
       _coronaData = CoronaData(
@@ -27,10 +28,11 @@ class DataProvider extends ChangeNotifier {
       print(
           'confirmed : ${coronaData.confirmed} , recovered : ${coronaData.recovered} , deaths: ${coronaData.deaths}');
       notifyListeners();
-      return coronaData;
-    } else {
-      print(response.statusCode);
-      // throw Exception('Failed to load Data ');
+    } catch (e) {
+      print(e);
     }
+    
+          return coronaData;
+
   }
 }
