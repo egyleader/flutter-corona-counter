@@ -20,7 +20,7 @@ class CoronaData {
 
   static String coronaDataToString(CoronaData data) {
     Map<String, dynamic> coronaMap = {
-      'name': data.country,
+      'country': data.country,
       'confirmed': data.confirmed,
       'deaths': data.deaths,
       'recovered': data.recovered
@@ -29,10 +29,35 @@ class CoronaData {
     return json.encode(coronaMap);
   }
 
+  static List<CoronaData> stringsListToCoronaData(List<String> stringList) {
+    List<CoronaData> list = [];
+    for (var string in stringList) {
+      CoronaData data = stringToCoronaData(string);
+      print('country: ${data.country} , confirmed: ${data.confirmed}');
+      list.add(data);
+    }
+
+    return list;
+  }
+
   static CoronaData stringToCoronaData(String string) {
     Map<String, dynamic> decode = json.decode(string);
 
-    return CoronaData(country: decode['country'] , confirmed: decode['confirmed'] , deaths: decode['deaths'], recovered: decode['recovered']);
-    
+    return CoronaData(
+        country: decode['country'],
+        confirmed: decode['confirmed'],
+        deaths: decode['deaths'],
+        recovered: decode['recovered']);
+  }
+
+  static List<String> coronaDataListToString(
+      List<CoronaData> countriesCoronaData) {
+    List<String> list = [];
+    for (CoronaData item in countriesCoronaData) {
+      String data = coronaDataToString(item);
+      list.add(data);
+    }
+
+    return list;
   }
 }

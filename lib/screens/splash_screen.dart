@@ -1,12 +1,10 @@
 import 'dart:async';
-
-import 'package:corona/models/coronaData.dart';
 import 'package:corona/screens/home_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:corona/services/prefrences.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,15 +17,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Prefrences prefrences = Prefrences();
 
-    var futureData = prefrences.initalizeData().then((data) {
-     
-     new Future.delayed(
+    prefrences.initalizeData().then((data) async{
+   
+     SharedPreferences prefrencesInstance = await prefrences.getPrefrences();
+     new Future.delayed (
         const Duration(seconds: 1),
-        () => Navigator.push(
+        ()   => Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => HomePage(
                   initialData: data,
+                  prefrencesInstance: prefrencesInstance 
                 ),
               ),
 
@@ -36,6 +36,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     });
     
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    
+  super.dispose();
   }
 
   @override

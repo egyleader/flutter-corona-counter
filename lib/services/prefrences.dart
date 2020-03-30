@@ -1,12 +1,22 @@
 import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 
 class Prefrences {
-  Future<SharedPreferences> getPrefrences() async =>
-      await SharedPreferences.getInstance();
+  Future<SharedPreferences> getPrefrences() => SharedPreferences.getInstance();
+
+  saveData({SharedPreferences preferences, List<String> countriesStrings}) {
+    try {
+      preferences.setStringList('countriesData', countriesStrings);
+      print('The Saved Data is : $countriesStrings');
+      print('data Saved successfully');
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 
   Future<String> getLastCountry(SharedPreferences _preferences) async {
     String _country = _preferences.getString('lastCountry');
@@ -50,16 +60,40 @@ class Prefrences {
     await preferences.setStringList('countriesData', newCountriesData);
   }
 
-  List<CoronaData> updateCountryData(
-      List<CoronaData> coronaData, CoronaData country) {
-    for (CoronaData listItem in coronaData) {
-      if (listItem.country == country.country) {
-        listItem = country;
-      } else {
-        coronaData.add(country);
-      }
+  void updateCountryData(
+      SharedPreferences preferences, CoronaData country) async {
+    //TODO: remove this 👇
+    //  await preferences.setStringList('countriesData' , []);
+
+    List<String> countriesStrings = preferences.getStringList('countriesData');
+    print('cached data : $countriesStrings');
+    List<CoronaData> countriesCoronaData =
+        CoronaData.stringsListToCoronaData(countriesStrings);
+
+    List<String> countriesNames = [];
+
+    if (countriesStrings.isEmpty) {
+      countriesStrings.add(CoronaData.coronaDataToString(country));
+      saveData(preferences: preferences, countriesStrings: countriesStrings);
     }
-    return coronaData;
+
+    for (CoronaData listItem in countriesCoronaData) {
+      int i = 0;
+      if (listItem.country == country.country) {
+        countriesCoronaData[i] = country;
+      }
+      countriesNames.add(listItem.country);
+      i++;
+    }
+    print(countriesNames);
+
+    if (!countriesNames.contains(country.country)) {
+      countriesCoronaData.add(country);
+    }
+
+    countriesStrings = CoronaData.coronaDataListToString(countriesCoronaData);
+
+    saveData(preferences: preferences, countriesStrings: countriesStrings);
   }
 
   getCountryCachedDataByName(
@@ -72,7 +106,7 @@ class Prefrences {
     }
   }
 
-Future<CoronaData> initalizeData() async {
+  Future<CoronaData> initalizeData() async {
     SharedPreferences _prefrences = await getPrefrences();
     print('your prefrences is : ${_prefrences.toString()}');
     String _lastCountry = await getLastCountry(_prefrences);
@@ -80,12 +114,10 @@ Future<CoronaData> initalizeData() async {
 
     CoronaData _countryData;
     List<String> _countriesDataStrings;
-    if (await _prefrences.containsKey('countriesData') != false 
-        && await _prefrences.getStringList('countriesData').isNotEmpty) {
-            _countriesDataStrings = await _prefrences.getStringList('countriesData');
-    }
-
-     else {
+    if (await _prefrences.containsKey('countriesData') != false &&
+        await _prefrences.getStringList('countriesData').isNotEmpty) {
+      _countriesDataStrings = await _prefrences.getStringList('countriesData');
+    } else {
       print('there is no saved country ,, loaded initial country to app ');
       DataProvider dataProvider = DataProvider();
       return dataProvider.getData(_lastCountry);
@@ -94,7 +126,7 @@ Future<CoronaData> initalizeData() async {
     print('Countries Strings  is : $_countriesDataStrings');
 
     List<CoronaData> _countriesCoronaData =
-        countriesStringToCoronaData(_countriesDataStrings);
+        CoronaData.stringsListToCoronaData(_countriesDataStrings);
     print('Countries corona Data  is : ${_countriesCoronaData.toString()}');
 
     bool _cached = countryIsCached(_countriesCoronaData, _lastCountry);

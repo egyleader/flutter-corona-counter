@@ -4,6 +4,7 @@ import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
 import 'package:corona/providers/theme_provider.dart';
 import 'package:corona/services/code_to_emoji.dart';
+import 'package:corona/services/prefrences.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,12 +13,17 @@ import 'package:provider/provider.dart';
 import 'package:corona/models/country.dart';
 import 'dart:ui' as ui;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class HomePage extends StatelessWidget {
-  HomePage({CoronaData this.initialData});
+  HomePage({this.initialData , this.prefrencesInstance});
 
-  CoronaData initialData; 
-
+  CoronaData initialData;
+  Prefrences prefrences = Prefrences();
+  SharedPreferences prefrencesInstance;
+  
   Widget build(BuildContext context) {
+
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
 
@@ -65,7 +71,9 @@ class HomePage extends StatelessWidget {
                 child: CupertinoPicker(
                     onSelectedItemChanged: (i) async {
                       index = i;
-                      await dataProvider.getData(countries[i].code);
+                      CoronaData data =
+                          await dataProvider.getData(countries[i].code);
+                      prefrences.updateCountryData(prefrencesInstance, data);
                     },
                     scrollController:
                         FixedExtentScrollController(initialItem: index),
@@ -185,7 +193,7 @@ class HomePage extends StatelessWidget {
                         Text(tr("percent")),
                         Text(
                           dataProvider.coronaData == null
-                              ? '${(initialData.deaths/ initialData.confirmed *100 ).toStringAsFixed(2)} \%'
+                              ? '${(initialData.deaths / initialData.confirmed * 100).toStringAsFixed(2)} \%'
                               : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} \%',
                           style: TextStyle(
                               color: kPrimaryColor, fontSize: width * 0.1),
