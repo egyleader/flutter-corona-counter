@@ -1,13 +1,62 @@
 import 'package:corona/models/coronaData.dart';
+import 'package:corona/models/country.dart';
+import 'package:corona/services/prefrences.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DataProvider extends ChangeNotifier {
   var _coronaData;
   get coronaData => _coronaData;
 
-  Future<CoronaData> getData(String code) async {
+  Prefrences prefrencesInstance = Prefrences();
+
+
+  Future<CoronaData> getData(
+      {SharedPreferences preferences, String countryName}) async {
+    // get saved Countries
+    List<String> countriesNames = preferences.getStringList('countriesNames');
+    print(countryName);
+    print(countriesNames);
+    // check if the country is cached
+
+    if (countriesNames == null) {
+      int index = Countries.countriesData()
+          .indexWhere((country) => country.countryEn == countryName);
+      String code = Countries.countriesData()[index].code;
+      print(code);
+
+      _coronaData = await getDataFromAPI(code);
+      print(_coronaData);
+      prefrencesInstance.updateCountryData(preferences, _coronaData);
+
+      return _coronaData;
+    }
+
+    if (countriesNames.contains(countryName)) {
+      // load country from cach if cached
+      List<String> countriesStrings =
+          preferences.getStringList('countriesData');
+      print(countriesStrings);
+      List<CoronaData> coronaList =
+          prefrencesInstance.countriesStringToCoronaData(countriesStrings);
+
+      _coronaData =
+          prefrencesInstance.getCountryByName(countryName, coronaList);
+      print('==============================================');
+      print('loaded ${_coronaData.country} data from cache');
+    } else {
+      int index = Countries.countriesData()
+          .indexWhere((country) => country.countryEn == countryName);
+      String code = Countries.countriesData()[index].code;
+      print(code);
+      _coronaData = await getDataFromAPI(code);
+    }
+    return _coronaData;
+  }
+
+  Future<CoronaData> getDataFromAPI(String code) async {
     try {
       final response = await http.get(
           'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',
@@ -18,7 +67,7 @@ class DataProvider extends ChangeNotifier {
           });
 
       List<dynamic> data = json.decode(response.body);
-      print(response.body);
+      print(data[0]['country']);
       _coronaData = CoronaData(
           country: data[0]['country'],
           confirmed: data[0]['confirmed'],
@@ -31,8 +80,7 @@ class DataProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
-    
-          return coronaData;
 
+    return _coronaData;
   }
 }

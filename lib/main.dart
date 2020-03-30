@@ -1,6 +1,4 @@
-import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
-import 'package:corona/screens/home_page.dart';
 import 'package:corona/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

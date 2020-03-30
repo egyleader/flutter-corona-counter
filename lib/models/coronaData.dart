@@ -33,7 +33,6 @@ class CoronaData {
     List<CoronaData> list = [];
     for (var string in stringList) {
       CoronaData data = stringToCoronaData(string);
-      print('country: ${data.country} , confirmed: ${data.confirmed}');
       list.add(data);
     }
 

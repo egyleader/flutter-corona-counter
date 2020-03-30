@@ -18,10 +18,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomePage extends StatelessWidget {
   HomePage({this.initialData , this.prefrencesInstance});
 
-  CoronaData initialData;
-  Prefrences prefrences = Prefrences();
-  SharedPreferences prefrencesInstance;
-  
+  final CoronaData initialData;
+  final Prefrences prefrences = Prefrences();
+  final SharedPreferences prefrencesInstance;
+
   Widget build(BuildContext context) {
 
     ThemeProvider themeProvider =
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                     onSelectedItemChanged: (i) async {
                       index = i;
                       CoronaData data =
-                          await dataProvider.getData(countries[i].code);
+                      await dataProvider.getData(preferences: prefrencesInstance , countryName: countries[i].countryEn);
                       prefrences.updateCountryData(prefrencesInstance, data);
                     },
                     scrollController:

@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     prefrences.initalizeData().then((data) async{
    
      SharedPreferences prefrencesInstance = await prefrences.getPrefrences();
+     
      new Future.delayed (
         const Duration(seconds: 1),
         ()   => Navigator.push(
