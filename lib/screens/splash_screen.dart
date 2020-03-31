@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:connectivity/connectivity.dart';
 import 'package:corona/screens/home_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

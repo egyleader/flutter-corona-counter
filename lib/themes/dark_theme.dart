@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:superellipse_shape/superellipse_shape.dart';
 
 import '../const.dart';
 

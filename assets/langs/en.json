@@ -5,5 +5,7 @@
     "recovered": "Recovered",
     "deaths": "Deaths",
     "percent": "Death %",
-    "disconnected": "You are Disconnected , please connect to internet"
+    "disconnected": "You are Disconnected , please connect to internet",
+    "darkmode": "Dark Mode :",
+    "arabic": "Arabic :"
 }

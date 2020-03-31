@@ -12,6 +12,8 @@ void main() {
       path: 'assets/langs',
       supportedLocales: [Locale('en'), Locale('ar')],
       useOnlyLangCode: true,
+      saveLocale: true,
+      
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<ThemeProvider>(
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: EasyLocalization.of(context).supportedLocales,
         locale: EasyLocalization.of(context).locale,
+        
         title: 'corona',
         theme: themeProvider.getTheme(),
         home: SplashScreen(),

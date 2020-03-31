@@ -24,7 +24,6 @@ class HomePage extends StatelessWidget {
   final Prefrences prefrences = Prefrences();
   final SharedPreferences prefrencesInstance;
         
-        int statusbarCounter = 0 ;
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
@@ -70,12 +69,11 @@ class HomePage extends StatelessWidget {
                   child: CupertinoPicker(
                       onSelectedItemChanged: (i) async {
                               ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-                        if (connectivityResult == ConnectivityResult.none && statusbarCounter <= 5) {
+                        if (connectivityResult == ConnectivityResult.none ) {
                           Scaffold.of(ctx).showSnackBar(SnackBar(
                               content: Text(
                             tr('disconnected'),
                           ),),);
-                          statusbarCounter ++ ; 
                         }
                         index = i;
                         CoronaData data = await dataProvider.getData(
@@ -208,7 +206,8 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                    height: height * .15,
+
+                    height: height * .2,
                     child: NativeAdmob(
                       adUnitID: 'ca-app-pub-1906725567028861/5542477581',
                       type: NativeAdmobType.banner,
@@ -232,15 +231,19 @@ class HomePage extends StatelessWidget {
                               NativeTextStyle(color: Colors.deepOrange)),
                     )),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
+                    Text(tr('darkmode')),
                     // switch for the dark theme with themeProvider
                     Switch(
-                        value: themeProvider.getTheme() == darkTheme
-                            ? false
-                            : true,
+                        value: themeProvider.isDark()
+                            ? true
+                            : false,
                         onChanged: (value) {
                           themeProvider.switchTheme();
                         }),
+                                            Text(tr('arabic')),
+
                     // switch to change language with Easy Localization
                     Switch(
                         value:

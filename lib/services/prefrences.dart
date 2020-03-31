@@ -1,8 +1,7 @@
 import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
+import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:ui' as ui;
-
 class Prefrences {
   Future<SharedPreferences> getPrefrences() => SharedPreferences.getInstance();
 
@@ -90,15 +89,23 @@ class Prefrences {
   }
 
   Future<CoronaData> initalizeData() async {
-
-    
     SharedPreferences _prefrences = await getPrefrences();
+
+    String _code;
+    if (_prefrences.getString('lastCountry') == null ||
+        _prefrences.getString('lastCountry') == '') {
+      print('get country from sim ');
+      _code = await FlutterSimCountryCode.simCountryCode;
+      _prefrences.setString('lastCountry', _code);
+    } else {
+      _code = _prefrences.getString('lastCountry');
+    }
 
     _prefrences.setStringList('countriesData', []);
     _prefrences.setStringList('countriesCodes', []);
     DataProvider dataProvider = DataProvider();
     CoronaData data = await dataProvider.getData(
-        countryCode: ui.window.locale.countryCode, preferences: _prefrences);
+        countryCode: _code, preferences: _prefrences);
     return data;
   }
 }
