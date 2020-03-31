@@ -2,3 +2,4 @@
 
 A Simple multilanguage Corona Counter app 
 
+i

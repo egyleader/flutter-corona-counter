@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:corona/models/coronaData.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:flutter/material.dart';
@@ -16,22 +17,21 @@ class DataProvider extends ChangeNotifier {
     List<String> countriesCodes = preferences.getStringList('countriesCodes');
 
     // * if there is no cached data cereate it for this country
-      print(countriesCodes);
+    print(countriesCodes);
 
     if (countriesCodes == null || countriesCodes == []) {
       _coronaData = await getDataFromAPI(countryCode);
 
       prefrencesInstance.updateCountryData(
           preferences, _coronaData, countryCode);
- 
+      notifyListeners();
+
       return _coronaData;
     }
 
     // * if there is maching data fetch it
 
     else if (countriesCodes.contains(countryCode)) {
-      print('cached');
-
       List<String> countriesStrings =
           preferences.getStringList('countriesData');
       List<CoronaData> coronaList =
@@ -41,6 +41,7 @@ class DataProvider extends ChangeNotifier {
           prefrencesInstance.getCountryByCode(countryCode, coronaList);
 
       print('loaded country ${_coronaData.country} from the Cache  ');
+      notifyListeners();
 
       return _coronaData;
     }
@@ -52,10 +53,23 @@ class DataProvider extends ChangeNotifier {
       prefrencesInstance.updateCountryData(
           preferences, _coronaData, countryCode);
     }
+    notifyListeners();
+
     return _coronaData;
   }
 
   Future<CoronaData> getDataFromAPI(String code) async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return CoronaData(
+          code: '-',
+          country: '-',
+          confirmed: 0,
+          deaths: 0,
+          lastChecked: '-',
+          recovered: 0);
+    }
+
     try {
       final response = await http.get(
           'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',

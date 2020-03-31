@@ -90,11 +90,12 @@ class Prefrences {
   }
 
   Future<CoronaData> initalizeData() async {
+
+    
     SharedPreferences _prefrences = await getPrefrences();
 
     _prefrences.setStringList('countriesData', []);
     _prefrences.setStringList('countriesCodes', []);
-
     DataProvider dataProvider = DataProvider();
     CoronaData data = await dataProvider.getData(
         countryCode: ui.window.locale.countryCode, preferences: _prefrences);

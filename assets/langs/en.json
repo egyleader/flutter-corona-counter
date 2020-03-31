@@ -4,5 +4,6 @@
     "confirmed": "Total Infections",
     "recovered": "Recovered",
     "deaths": "Deaths",
-    "percent": "Death %"
+    "percent": "Death %",
+    "disconnected": "You are Disconnected , please connect to internet"
 }
