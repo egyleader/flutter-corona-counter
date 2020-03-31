@@ -1,4 +1,4 @@
-package com.example.corona
+package com.invign.corona
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

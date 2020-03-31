@@ -1,29 +1,29 @@
 import 'dart:convert';
 
 class CoronaData {
-  CoronaData({this.country, this.confirmed, this.deaths, this.recovered});
+  CoronaData(
+      {this.country,
+      this.code,
+      this.lastChecked,
+      this.confirmed,
+      this.deaths,
+      this.recovered});
 
   final String country;
-
+  final String code;
+  final String lastChecked;
   final int confirmed;
   final int deaths;
   final int recovered;
 
-  factory CoronaData.fromJson(Map<String, dynamic> json) {
-    return CoronaData(
-      country: json['country'] as String,
-      confirmed: json['confirmed'] as int,
-      deaths: json['deaths'] as int,
-      recovered: json['recovered'] as int,
-    );
-  }
-
   static String coronaDataToString(CoronaData data) {
     Map<String, dynamic> coronaMap = {
       'country': data.country,
+      'code': data.code,
       'confirmed': data.confirmed,
       'deaths': data.deaths,
-      'recovered': data.recovered
+      'recovered': data.recovered,
+      'lastChecked':data.lastChecked.toString()
     };
 
     return json.encode(coronaMap);
@@ -44,9 +44,11 @@ class CoronaData {
 
     return CoronaData(
         country: decode['country'],
+        code: decode['code'],
         confirmed: decode['confirmed'],
         deaths: decode['deaths'],
-        recovered: decode['recovered']);
+        recovered: decode['recovered'],
+        lastChecked: decode['lastChecked']);
   }
 
   static List<String> coronaDataListToString(

@@ -1,5 +1,4 @@
 import 'package:corona/models/coronaData.dart';
-import 'package:corona/models/country.dart';
 import 'package:corona/providers/data_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
@@ -10,12 +9,10 @@ class Prefrences {
   saveData(
       {SharedPreferences preferences,
       List<String> countriesData,
-      List<String> countriesNames}) {
+      List<String> countriesCodes}) {
     try {
       preferences.setStringList('countriesData', countriesData);
-      preferences.setStringList('countriesNames', countriesNames);
-      print('The Saved Data is : $countriesData');
-      print('The Saved countries is : $countriesNames');
+      preferences.setStringList('countriesCodes', countriesCodes);
       return true;
     } catch (e) {
       print(e);
@@ -48,68 +45,59 @@ class Prefrences {
     await preferences.setStringList('countriesData', newCountriesData);
   }
 
-  void updateCountryData(
-      SharedPreferences preferences, CoronaData country) async {
-    //TODO: remove this 👇
-    //  await preferences.setStringList('countriesData' , []);
-
+  Future<bool> updateCountryData(
+      SharedPreferences preferences, CoronaData country, String code) async {
     List<String> countriesStrings = preferences.getStringList('countriesData');
 
-    List<String> countriesNames = [];
+    List<String> countriesCodes = preferences.getStringList('countriesCodes');
 
-    if (countriesStrings == null || countriesStrings == []) {
-      countriesStrings = [];
-      countriesStrings.add(CoronaData.coronaDataToString(country));
+    if (countriesCodes == []) {
       saveData(
           preferences: preferences,
-          countriesData: countriesStrings,
-          countriesNames: [country.country]);
+          countriesData: [CoronaData.coronaDataToString(country)],
+          countriesCodes: [code]);
+      print('saved countries: $countriesCodes');
+      return true;
     }
+
     List<CoronaData> countriesCoronaData =
         CoronaData.stringsListToCoronaData(countriesStrings);
-
     for (CoronaData listItem in countriesCoronaData) {
-      int i = 0;
-      if (listItem.country == country.country) {
-        countriesCoronaData[i] = country;
+      if (listItem.code == country.code) {
+        listItem = country;
       }
-      countriesNames.add(listItem.country);
-      i++;
     }
 
-    if (!countriesNames.contains(country.country)) {
+    if (!countriesCodes.contains(country.code)) {
       countriesCoronaData.add(country);
-      countriesNames.add(country.country);
+      countriesCodes.add(country.code);
     }
-    print(countriesNames);
 
     countriesStrings = CoronaData.coronaDataListToString(countriesCoronaData);
 
     saveData(
         preferences: preferences,
         countriesData: countriesStrings,
-        countriesNames: countriesNames);
+        countriesCodes: countriesCodes);
+    return true;
   }
 
-  CoronaData getCountryByName(
-      String _country, List<CoronaData> _countriesCoronaData) {
-    for (CoronaData item in _countriesCoronaData) {
-      if (item.country == _country) {
-        return item;
-      }
-    }
+  CoronaData getCountryByCode(
+      String _code, List<CoronaData> _countriesCoronaData) {
+    CoronaData country =
+        _countriesCoronaData.singleWhere((country) => country.code == _code);
+    return country;
   }
 
   Future<CoronaData> initalizeData() async {
     SharedPreferences _prefrences = await getPrefrences();
-    final List<Country> countries = Countries.countriesData();
 
-    int index = countries
-        .indexWhere((country) => country.code == ui.window.locale.countryCode);
+    _prefrences.setStringList('countriesData', []);
+    _prefrences.setStringList('countriesCodes', []);
 
     DataProvider dataProvider = DataProvider();
     CoronaData data = await dataProvider.getData(
-        countryName: countries[index].countryEn, preferences: _prefrences);
+        countryCode: ui.window.locale.countryCode, preferences: _prefrences);
     return data;
   }
 }

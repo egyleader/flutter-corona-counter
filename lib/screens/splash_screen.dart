@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -17,33 +16,27 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Prefrences prefrences = Prefrences();
 
-    prefrences.initalizeData().then((data) async{
-   
-     SharedPreferences prefrencesInstance = await prefrences.getPrefrences();
-     
-     new Future.delayed (
-        const Duration(seconds: 1),
-        ()   => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(
-                  initialData: data,
-                  prefrencesInstance: prefrencesInstance 
+    prefrences.initalizeData().then((data) async {
+      SharedPreferences prefrencesInstance = await prefrences.getPrefrences();
+
+      new Future.delayed(
+          const Duration(seconds: 1),
+          () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                      initialData: data,
+                      prefrencesInstance: prefrencesInstance),
                 ),
-              ),
 
-              // Navigator.pushNamed(context, '/home' , arguments:(data) )
-            ));
-
+                // Navigator.pushNamed(context, '/home' , arguments:(data) )
+              ));
     });
-    
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    
-  super.dispose();
+    super.dispose();
   }
 
   @override

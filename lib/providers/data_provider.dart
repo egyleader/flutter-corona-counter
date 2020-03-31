@@ -1,5 +1,4 @@
 import 'package:corona/models/coronaData.dart';
-import 'package:corona/models/country.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -12,46 +11,46 @@ class DataProvider extends ChangeNotifier {
 
   Prefrences prefrencesInstance = Prefrences();
 
-
   Future<CoronaData> getData(
-      {SharedPreferences preferences, String countryName}) async {
-    // get saved Countries
-    List<String> countriesNames = preferences.getStringList('countriesNames');
-    print(countryName);
-    print(countriesNames);
-    // check if the country is cached
+      {SharedPreferences preferences, String countryCode}) async {
+    List<String> countriesCodes = preferences.getStringList('countriesCodes');
 
-    if (countriesNames == null) {
-      int index = Countries.countriesData()
-          .indexWhere((country) => country.countryEn == countryName);
-      String code = Countries.countriesData()[index].code;
-      print(code);
+    // * if there is no cached data cereate it for this country
+      print(countriesCodes);
 
-      _coronaData = await getDataFromAPI(code);
-      print(_coronaData);
-      prefrencesInstance.updateCountryData(preferences, _coronaData);
+    if (countriesCodes == null || countriesCodes == []) {
+      _coronaData = await getDataFromAPI(countryCode);
 
+      prefrencesInstance.updateCountryData(
+          preferences, _coronaData, countryCode);
+ 
       return _coronaData;
     }
 
-    if (countriesNames.contains(countryName)) {
-      // load country from cach if cached
+    // * if there is maching data fetch it
+
+    else if (countriesCodes.contains(countryCode)) {
+      print('cached');
+
       List<String> countriesStrings =
           preferences.getStringList('countriesData');
-      print(countriesStrings);
       List<CoronaData> coronaList =
           prefrencesInstance.countriesStringToCoronaData(countriesStrings);
 
       _coronaData =
-          prefrencesInstance.getCountryByName(countryName, coronaList);
-      print('==============================================');
-      print('loaded ${_coronaData.country} data from cache');
-    } else {
-      int index = Countries.countriesData()
-          .indexWhere((country) => country.countryEn == countryName);
-      String code = Countries.countriesData()[index].code;
-      print(code);
-      _coronaData = await getDataFromAPI(code);
+          prefrencesInstance.getCountryByCode(countryCode, coronaList);
+
+      print('loaded country ${_coronaData.country} from the Cache  ');
+
+      return _coronaData;
+    }
+
+    // * data is not cached , get it from internet and cache it
+
+    else {
+      _coronaData = await getDataFromAPI(countryCode);
+      prefrencesInstance.updateCountryData(
+          preferences, _coronaData, countryCode);
     }
     return _coronaData;
   }
@@ -65,17 +64,15 @@ class DataProvider extends ChangeNotifier {
             "x-rapidapi-key":
                 "bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471"
           });
-
       List<dynamic> data = json.decode(response.body);
-      print(data[0]['country']);
       _coronaData = CoronaData(
           country: data[0]['country'],
+          code: code,
           confirmed: data[0]['confirmed'],
           recovered: data[0]['recovered'],
-          deaths: data[0]['deaths']);
-      print('Corona Status for ${coronaData.country} is:');
-      print(
-          'confirmed : ${coronaData.confirmed} , recovered : ${coronaData.recovered} , deaths: ${coronaData.deaths}');
+          deaths: data[0]['deaths'],
+          lastChecked: DateTime.now().toString());
+      print('loaded country ${_coronaData.country} from the internet ');
       notifyListeners();
     } catch (e) {
       print(e);

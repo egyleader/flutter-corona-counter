@@ -7,39 +7,33 @@ import 'package:corona/services/code_to_emoji.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:corona/models/country.dart';
-import 'dart:ui' as ui;
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({this.initialData , this.prefrencesInstance});
+  HomePage({this.initialData, this.prefrencesInstance});
 
   final CoronaData initialData;
   final Prefrences prefrences = Prefrences();
   final SharedPreferences prefrencesInstance;
 
   Widget build(BuildContext context) {
-
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
 
     DataProvider dataProvider = Provider.of<DataProvider>(context);
-
-    final String languageCode =
-        EasyLocalization.of(context).locale.languageCode;
 
     final width = MediaQuery.of(context).size.width - 20.0;
 
     final height = MediaQuery.of(context).size.height - 20.0;
 
     final List<Country> countries = Countries.countriesData();
-
-    int index = countries
-        .indexWhere((country) => country.code == ui.window.locale.countryCode);
+    print(initialData.code);
+    int index =
+        countries.indexWhere((country) => country.code == initialData.code);
 
     return SafeArea(
       child: Scaffold(
@@ -71,9 +65,11 @@ class HomePage extends StatelessWidget {
                 child: CupertinoPicker(
                     onSelectedItemChanged: (i) async {
                       index = i;
-                      CoronaData data =
-                      await dataProvider.getData(preferences: prefrencesInstance , countryName: countries[i].countryEn);
-                      prefrences.updateCountryData(prefrencesInstance, data);
+                      CoronaData data = await dataProvider.getData(
+                          preferences: prefrencesInstance,
+                          countryCode: countries[i].code);
+                      await prefrences.updateCountryData(
+                          prefrencesInstance, data, countries[index].code);
                     },
                     scrollController:
                         FixedExtentScrollController(initialItem: index),
@@ -91,7 +87,10 @@ class HomePage extends StatelessWidget {
                         .map((country) => Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                languageCode == "en"
+                                EasyLocalization.of(context)
+                                            .locale
+                                            .languageCode ==
+                                        "en"
                                     ? '${country.countryEn} ${codeToEmoji(country.code)}'
                                     : '${country.countryAr}  ${codeToEmoji(country.code)}',
                                 style: Theme.of(context).textTheme.body1,
@@ -212,10 +211,13 @@ class HomePage extends StatelessWidget {
                   }),
               // switch to change language with Easy Localization
               Switch(
-                  value: languageCode == "ar" ? false : true,
+                  value:
+                      EasyLocalization.of(context).locale.languageCode == "ar"
+                          ? false
+                          : true,
                   onChanged: (value) {
-                    print('switch Language code : $languageCode');
-                    if (languageCode == "ar") {
+                    if (EasyLocalization.of(context).locale.languageCode ==
+                        "ar") {
                       EasyLocalization.of(context).locale = Locale("en");
                     } else {
                       EasyLocalization.of(context).locale = Locale("ar");
