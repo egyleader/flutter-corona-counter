@@ -24,7 +24,7 @@ class Countries {
       Country(countryEn: 'Iraq', countryAr: 'العراق', code: 'IQ'),
       Country(countryEn: 'Kuwait', countryAr: 'الكويت', code: 'KW'),
       Country(countryEn: 'Morocco', countryAr: 'المغرب', code: 'MA'),
-      Country(countryEn: 'Yemen', countryAr: 'اليمن', code: 'YE'),
+      // Country(countryEn: 'Yemen', countryAr: 'اليمن', code: 'YE'),
       Country(countryEn: 'Tunisia', countryAr: 'تونس', code: 'TN'),
       Country(countryEn: 'Comoros', countryAr: 'جزر القمر', code: 'KM'),
       Country(countryEn: 'Djibouti', countryAr: 'جيبوتي', code: 'DJ'),
@@ -44,7 +44,7 @@ class Countries {
 
       Country(countryEn: 'Iran', countryAr: 'إيران', code: 'IR'),
       Country(countryEn: 'China', countryAr: 'الصين', code: 'CN'),
-      Country(countryEn: 'Israel', countryAr: 'إسرائيل', code: 'IL'),
+      Country(countryEn: 'Israel', countryAr: 'فلسطين المحتله', code: 'IL'),
 
       Country(countryEn: 'US', countryAr: 'الولايات المتحدة', code: 'US'),
 
@@ -313,18 +313,18 @@ class Countries {
       Country(
           countryEn: 'Solomon Islands', countryAr: 'جزر سليمان', code: 'SB'),
       Country(countryEn: 'South Africa', countryAr: 'جنوب أفريقيا', code: 'ZA'),
-      Country(
-          countryEn: 'South Georgia and the South Sandwich Islands',
-          countryAr: 'جورجيا الجنوبية وجزر ساندويتش الجنوبية',
-          code: 'GS'),
+      // Country(
+      //     countryEn: 'South Georgia and the South Sandwich Islands',
+      //     countryAr: 'جورجيا الجنوبية وجزر ساندويتش الجنوبية',
+      //     code: 'GS'),
       Country(countryEn: 'Spain', countryAr: 'إسبانيا', code: 'ES'),
       Country(countryEn: 'Sri Lanka', countryAr: 'سريلانكا', code: 'LK'),
 
       Country(countryEn: 'Suriname', countryAr: 'سورينام', code: 'SR'),
-      Country(
-          countryEn: 'Svalbard and Jan Mayen',
-          countryAr: 'سفالبارد ويان ماين',
-          code: 'SJ'),
+      // Country(
+      //     countryEn: 'Svalbard and Jan Mayen',
+      //     countryAr: 'سفالبارد ويان ماين',
+      //     code: 'SJ'),
       Country(countryEn: 'Swaziland', countryAr: 'سوازيلاند', code: 'SZ'),
       Country(countryEn: 'Sweden', countryAr: 'السويد', code: 'SE'),
       Country(countryEn: 'Switzerland', countryAr: 'سويسرا', code: 'CH'),
@@ -333,7 +333,7 @@ class Countries {
           countryEn: 'Taiwan, Province of China',
           countryAr: 'تايوان',
           code: 'TW'),
-      Country(countryEn: 'Tajikistan', countryAr: 'طاجيكستان', code: 'TJ'),
+      // Country(countryEn: 'Tajikistan', countryAr: 'طاجيكستان', code: 'TJ'),
       Country(
           countryEn: 'Tanzania, United Republic of',
           countryAr: 'تنزانيا',
@@ -341,29 +341,29 @@ class Countries {
       Country(countryEn: 'Thailand', countryAr: 'تايلاند', code: 'TH'),
       Country(countryEn: 'Timor-Leste', countryAr: 'تيمور الشرقية', code: 'TL'),
       Country(countryEn: 'Togo', countryAr: 'توغو', code: 'TG'),
-      Country(countryEn: 'Tokelau', countryAr: 'توكيلاو', code: 'TK'),
-      Country(countryEn: 'Tonga', countryAr: 'تونغا', code: 'TO'),
+      // Country(countryEn: 'Tokelau', countryAr: 'توكيلاو', code: 'TK'),
+      // Country(countryEn: 'Tonga', countryAr: 'تونغا', code: 'TO'),
       Country(
           countryEn: 'Trinidad and Tobago',
           countryAr: 'ترينيداد وتوباغو',
           code: 'TT'),
 
-      Country(countryEn: 'Turkmenistan', countryAr: 'تركمانستان', code: 'TM'),
+      // Country(countryEn: 'Turkmenistan', countryAr: 'تركمانستان', code: 'TM'),
       Country(
           countryEn: 'Turks and Caicos Islands',
           countryAr: 'جزر توركس وكايكوس',
           code: 'TC'),
-      Country(countryEn: 'Tuvalu', countryAr: 'توفالو', code: 'TV'),
+      // Country(countryEn: 'Tuvalu', countryAr: 'توفالو', code: 'TV'),
       Country(countryEn: 'Uganda', countryAr: 'أوغندا', code: 'UG'),
       Country(countryEn: 'Ukraine', countryAr: 'أوكرانيا', code: 'UA'),
 
-      Country(
-          countryEn: 'United States Minor Outlying Islands',
-          countryAr: 'جزر الولايات المتحدة الصغيرة النائية',
-          code: 'UM'),
+      // Country(
+      //     countryEn: 'United States Minor Outlying Islands',
+      //     countryAr: 'جزر الولايات المتحدة الصغيرة النائية',
+      //     code: 'UM'),
       Country(countryEn: 'Uruguay', countryAr: 'الأوروغواي', code: 'UY'),
-      Country(countryEn: 'Uzbekistan', countryAr: 'أوزبكستان', code: 'UZ'),
-      Country(countryEn: 'Vanuatu', countryAr: 'فانواتو', code: 'VU'),
+      // Country(countryEn: 'Uzbekistan', countryAr: 'أوزبكستان', code: 'UZ'),
+      // Country(countryEn: 'Vanuatu', countryAr: 'فانواتو', code: 'VU'),
       Country(countryEn: 'Venezuela', countryAr: 'فنزويلا', code: 'VE'),
       Country(countryEn: 'Vietnam', countryAr: 'فيتنام', code: 'VN'),
       Country(
@@ -374,10 +374,10 @@ class Countries {
           countryEn: 'Virgin Islands, U.S.',
           countryAr: 'جزر العذراء الأمريكية',
           code: 'VI'),
-      Country(
-          countryEn: 'Wallis and Futuna',
-          countryAr: 'والس وفوتونا',
-          code: 'WF'),
+      // Country(
+      //     countryEn: 'Wallis and Futuna',
+      //     countryAr: 'والس وفوتونا',
+      //     code: 'WF'),
       Country(
           countryEn: 'Western Sahara',
           countryAr: 'الصحراء الغربية',

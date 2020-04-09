@@ -55,7 +55,6 @@ class Prefrences {
           preferences: preferences,
           countriesData: [CoronaData.coronaDataToString(country)],
           countriesCodes: [code]);
-      print('saved countries: $countriesCodes');
       return true;
     }
 
@@ -94,7 +93,6 @@ class Prefrences {
     String _code;
     if (_prefrences.getString('lastCountry') == null ||
         _prefrences.getString('lastCountry') == '') {
-      print('get country from sim ');
       _code = await FlutterSimCountryCode.simCountryCode;
       _prefrences.setString('lastCountry', _code);
     } else {

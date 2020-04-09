@@ -17,7 +17,6 @@ class DataProvider extends ChangeNotifier {
     List<String> countriesCodes = preferences.getStringList('countriesCodes');
 
     // * if there is no cached data cereate it for this country
-    print(countriesCodes);
 
     if (countriesCodes == null || countriesCodes == []) {
       _coronaData = await getDataFromAPI(countryCode);
@@ -40,7 +39,6 @@ class DataProvider extends ChangeNotifier {
       _coronaData =
           prefrencesInstance.getCountryByCode(countryCode, coronaList);
 
-      print('loaded country ${_coronaData.country} from the Cache  ');
       notifyListeners();
 
       return _coronaData;
@@ -86,7 +84,6 @@ class DataProvider extends ChangeNotifier {
           recovered: data[0]['recovered'],
           deaths: data[0]['deaths'],
           lastChecked: DateTime.now().toString());
-      print('loaded country ${_coronaData.country} from the internet ');
       notifyListeners();
     } catch (e) {
       print(e);

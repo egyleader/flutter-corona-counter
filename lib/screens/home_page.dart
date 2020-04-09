@@ -8,8 +8,6 @@ import 'package:corona/services/code_to_emoji.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +15,10 @@ import 'package:provider/provider.dart';
 import 'package:corona/models/country.dart';
 
 class HomePage extends StatelessWidget {
+  
   HomePage(
       {this.initialData, this.prefrencesInstance});
+
 
   final CoronaData initialData;
   final Prefrences prefrences = Prefrences();
@@ -205,31 +205,31 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                // SizedBox(
 
-                    height: height * .2,
-                    child: NativeAdmob(
-                      adUnitID: 'ca-app-pub-1906725567028861/5542477581',
-                      type: NativeAdmobType.banner,
-                      loading: Center(
-                          child: CircularProgressIndicator(
-                              backgroundColor: kPrimaryColor)),
-                      options: NativeAdmobOptions(
-                          showMediaContent: true,
-                          ratingColor: kPrimaryColor,
-                          adLabelTextStyle: NativeTextStyle(
-                              fontSize: 15,
-                              color: kPrimaryColor,
-                              backgroundColor: Colors.transparent,
-                              isVisible: true),
-                          headlineTextStyle:
-                              NativeTextStyle(color: Colors.yellow),
-                          advertiserTextStyle:
-                              NativeTextStyle(color: Colors.blueAccent),
-                          bodyTextStyle: NativeTextStyle(color: Colors.cyan),
-                          callToActionStyle:
-                              NativeTextStyle(color: Colors.deepOrange)),
-                    )),
+                //     height: height * .15,
+                //     child: NativeAdmob(
+                //       adUnitID:  kReleaseMode ? 'ca-app-pub-1906725567028861/5542477581' : 'ca-app-pub-3940256099942544/2247696110',
+                //       type: NativeAdmobType.banner,
+                //       loading: Center(
+                //           child: CircularProgressIndicator(
+                //               backgroundColor: kPrimaryColor)),
+                //       options: NativeAdmobOptions(
+                //           showMediaContent: false,
+                //           ratingColor: kPrimaryColor,
+                //           adLabelTextStyle: NativeTextStyle(
+                //               fontSize: 15,
+                //               color: kPrimaryColor,
+                //               backgroundColor: Colors.transparent,
+                //               isVisible: true),
+                //           headlineTextStyle:
+                //               NativeTextStyle(color: Colors.yellow),
+                //           advertiserTextStyle:
+                //               NativeTextStyle(color: Colors.blueAccent),
+                //           bodyTextStyle: NativeTextStyle(color: Colors.cyan),
+                //           callToActionStyle:
+                //               NativeTextStyle(color: Colors.deepOrange)),
+                //     )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
