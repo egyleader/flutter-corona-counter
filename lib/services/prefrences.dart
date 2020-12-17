@@ -45,7 +45,7 @@ class Prefrences {
   }
 
   Future<bool> updateCountryData(
-      SharedPreferences preferences, CoronaData country, String code) async {
+      SharedPreferences preferences, CoronaData countryData, String code) async {
     List<String> countriesStrings = preferences.getStringList('countriesData');
 
     List<String> countriesCodes = preferences.getStringList('countriesCodes');
@@ -53,7 +53,7 @@ class Prefrences {
     if (countriesCodes == []) {
       saveData(
           preferences: preferences,
-          countriesData: [CoronaData.coronaDataToString(country)],
+          countriesData: [CoronaData.coronaDataToString(countryData)],
           countriesCodes: [code]);
       return true;
     }
@@ -61,14 +61,14 @@ class Prefrences {
     List<CoronaData> countriesCoronaData =
         CoronaData.stringsListToCoronaData(countriesStrings);
     for (CoronaData listItem in countriesCoronaData) {
-      if (listItem.code == country.code) {
-        listItem = country;
+      if (listItem.code == countryData.code) {
+        listItem = countryData;
       }
     }
 
-    if (!countriesCodes.contains(country.code)) {
-      countriesCoronaData.add(country);
-      countriesCodes.add(country.code);
+    if (!countriesCodes.contains(countryData.code)) {
+      countriesCoronaData.add(countryData);
+      countriesCodes.add(countryData.code);
     }
 
     countriesStrings = CoronaData.coronaDataListToString(countriesCoronaData);
@@ -102,8 +102,7 @@ class Prefrences {
     _prefrences.setStringList('countriesData', []);
     _prefrences.setStringList('countriesCodes', []);
     DataProvider dataProvider = DataProvider();
-    CoronaData data = await dataProvider.getData(
-        countryCode: _code, preferences: _prefrences);
+    CoronaData data = await dataProvider.getData(  countryCode: _code, preferences: _prefrences);
     return data;
   }
 }

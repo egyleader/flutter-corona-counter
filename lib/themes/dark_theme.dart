@@ -7,6 +7,6 @@ final darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: kPrimaryDarkColor,
     snackBarTheme: SnackBarThemeData(backgroundColor: kPrimaryColor ,contentTextStyle: TextStyle(fontFamily: 'Almarai')),
   textTheme: TextTheme(
-    body1:TextStyle(fontFamily:'Almarai' , fontSize: 20.0)
+    bodyText1:TextStyle(fontFamily:'Almarai' , fontSize: 20.0)
   ),
 );

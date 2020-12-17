@@ -7,6 +7,6 @@ final lightTheme = ThemeData.light().copyWith(
       snackBarTheme: SnackBarThemeData(backgroundColor: kPrimaryColor ,contentTextStyle: TextStyle(fontFamily: 'Almarai')),
 
   textTheme: TextTheme(
-    body1:TextStyle(fontFamily:'Almarai', color: kPrimaryDarkColor , fontSize: 20.0)
+    bodyText1:TextStyle(fontFamily:'Almarai', color: kPrimaryDarkColor , fontSize: 20.0)
   ),
 );

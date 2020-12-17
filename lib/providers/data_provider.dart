@@ -12,13 +12,12 @@ class DataProvider extends ChangeNotifier {
 
   Prefrences prefrencesInstance = Prefrences();
 
-  Future<CoronaData> getData(
-      {SharedPreferences preferences, String countryCode}) async {
+  Future<CoronaData> getData({SharedPreferences preferences, String countryCode}) async {
     List<String> countriesCodes = preferences.getStringList('countriesCodes');
 
     // * if there is no cached data cereate it for this country
 
-    if (countriesCodes == null || countriesCodes == []) {
+    if (countriesCodes == null || countriesCodes.length == 0) {
       _coronaData = await getDataFromAPI(countryCode);
 
       prefrencesInstance.updateCountryData(
@@ -48,8 +47,7 @@ class DataProvider extends ChangeNotifier {
 
     else {
       _coronaData = await getDataFromAPI(countryCode);
-      prefrencesInstance.updateCountryData(
-          preferences, _coronaData, countryCode);
+      prefrencesInstance.updateCountryData(preferences, _coronaData, countryCode);
     }
     notifyListeners();
 
@@ -70,11 +68,10 @@ class DataProvider extends ChangeNotifier {
 
     try {
       final response = await http.get(
-          'https://covid-19-data.p.rapidapi.com/country/code?format=undefined&code=$code',
+          'https://covid-19-data.p.rapidapi.com/country/code?code=$code',
           headers: {
             "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
-            "x-rapidapi-key":
-                "bb41ead216msh312599d519776eap1d913cjsna46ca0ea9471"
+            "x-rapidapi-key": "c75168236emsh249d0232e5ef7cap156f3ajsnaa5b9cbe891f",
           });
       List<dynamic> data = json.decode(response.body);
       _coronaData = CoronaData(

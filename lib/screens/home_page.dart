@@ -8,12 +8,12 @@ import 'package:corona/services/code_to_emoji.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_country/models/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:corona/models/country.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_country/flutter_country.dart';
 class HomePage extends StatelessWidget {
   
   HomePage(
@@ -34,10 +34,10 @@ class HomePage extends StatelessWidget {
 
     final height = MediaQuery.of(context).size.height - 20.0;
 
-    final List<Country> countries = Countries.countriesData();
+    final List<Country> countries = Countries.all();
 
     int index =
-        countries.indexWhere((country) => country.code == initialData.code);
+        countries.indexWhere((country) => country.alpha2Code == initialData.code);
 
     return SafeArea(
       child: Scaffold(
@@ -78,9 +78,9 @@ class HomePage extends StatelessWidget {
                         index = i;
                         CoronaData data = await dataProvider.getData(
                             preferences: prefrencesInstance,
-                            countryCode: countries[i].code);
+                            countryCode: countries[i].alpha2Code);
                         await prefrences.updateCountryData(
-                            prefrencesInstance, data, countries[index].code);
+                            prefrencesInstance, data, countries[index].alpha2Code);
                       },
                       scrollController:
                           FixedExtentScrollController(initialItem: index),
@@ -102,9 +102,9 @@ class HomePage extends StatelessWidget {
                                               .locale
                                               .languageCode ==
                                           "en"
-                                      ? '${country.countryEn} ${codeToEmoji(country.code)}'
-                                      : '${country.countryAr}  ${codeToEmoji(country.code)}',
-                                  style: Theme.of(context).textTheme.body1,
+                                      ? '${country.name} ${country.flag}'
+                                      : '${country.name}  ${country.flag}',
+                                  style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ))
                           .toList()),
