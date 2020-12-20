@@ -25,9 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomePage(
-                      initialData: data,
-                      prefrencesInstance: prefrencesInstance,
-                      ),
+                    initialData: data,
+                    prefrencesInstance: prefrencesInstance,
+                  ),
                 ),
 
                 // Navigator.pushNamed(context, '/home' , arguments:(data) )
@@ -50,9 +50,9 @@ class _SplashScreenState extends State<SplashScreen> {
           Image(image: AssetImage('assets/images/logo.png')),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(tr('title'), style: TextStyle(fontSize: 35.0)),
+            child: Text(tr('title'), style: TextStyle(fontFamily:'Almarai' , fontSize: 35.0)),
           ),
-          Text(tr('slogan'), style: TextStyle(fontSize: 24.0)),
+          Text(tr('slogan'), style: TextStyle(fontFamily:'Almarai' ,fontSize: 24.0)),
         ],
       ),
     ));

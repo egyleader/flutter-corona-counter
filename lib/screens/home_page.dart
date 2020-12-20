@@ -1,10 +1,9 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:corona/components/superellipse_card.dart';
+import 'package:corona/components/superellipse_data_card.dart';
 import 'package:corona/const.dart';
 import 'package:corona/models/coronaData.dart';
 import 'package:corona/providers/data_provider.dart';
 import 'package:corona/providers/theme_provider.dart';
-import 'package:corona/services/code_to_emoji.dart';
 import 'package:corona/services/prefrences.dart';
 import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,16 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_country/flutter_country.dart';
-class HomePage extends StatelessWidget {
-  
-  HomePage(
-      {this.initialData, this.prefrencesInstance});
 
+class HomePage extends StatelessWidget {
+  HomePage({this.initialData, this.prefrencesInstance});
 
   final CoronaData initialData;
   final Prefrences prefrences = Prefrences();
   final SharedPreferences prefrencesInstance;
-        
+
   Widget build(BuildContext context) {
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: false);
@@ -36,8 +33,9 @@ class HomePage extends StatelessWidget {
 
     final List<Country> countries = Countries.all();
 
-    int index =
-        countries.indexWhere((country) => country.alpha2Code == initialData.code);
+    final color = themeProvider.isDark() ? kDarkCardColor : kLightCardColor;
+    int index = countries
+        .indexWhere((country) => country.alpha2Code == initialData.code);
 
     return SafeArea(
       child: Scaffold(
@@ -68,19 +66,23 @@ class HomePage extends StatelessWidget {
                   height: height * 0.2,
                   child: CupertinoPicker(
                       onSelectedItemChanged: (i) async {
-                              ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-                        if (connectivityResult == ConnectivityResult.none ) {
-                          Scaffold.of(ctx).showSnackBar(SnackBar(
+                        ConnectivityResult connectivityResult =
+                            await (Connectivity().checkConnectivity());
+                        if (connectivityResult == ConnectivityResult.none) {
+                          Scaffold.of(ctx).showSnackBar(
+                            SnackBar(
                               content: Text(
-                            tr('disconnected'),
-                          ),),);
+                                tr('disconnected'),
+                              ),
+                            ),
+                          );
                         }
                         index = i;
                         CoronaData data = await dataProvider.getData(
                             preferences: prefrencesInstance,
                             countryCode: countries[i].alpha2Code);
-                        await prefrences.updateCountryData(
-                            prefrencesInstance, data, countries[index].alpha2Code);
+                        await prefrences.updateCountryData(prefrencesInstance,
+                            data, countries[index].alpha2Code);
                       },
                       scrollController:
                           FixedExtentScrollController(initialItem: index),
@@ -103,7 +105,7 @@ class HomePage extends StatelessWidget {
                                               .languageCode ==
                                           "en"
                                       ? '${country.name} ${country.flag}'
-                                      : '${country.name}  ${country.flag}',
+                                      : '${country.nativeName != null ? country.nativeName.translate('ara').common : country.name}  ${country.flag}',
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ))
@@ -112,137 +114,56 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SuperellipseCard(
-                      color: themeProvider.isDark()
-                          ? kDarkCardColor
-                          : kLightCardColor,
-                      size: width * 0.45,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/confirmed.png',
-                            height: MediaQuery.of(context).size.height / 10,
-                          ),
-                          Text(tr("confirmed")),
-                          Text(
-                              dataProvider.coronaData == null
-                                  ? initialData.confirmed.toString()
-                                  : dataProvider.coronaData.confirmed
-                                      .toString(),
-                              style: kCardNumberStyle),
-                        ],
-                      ),
-                    ),
-                    SuperellipseCard(
-                      color: themeProvider.isDark()
-                          ? kDarkCardColor
-                          : kLightCardColor,
-                      size: width * 0.45,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/recovered.png',
-                            height: MediaQuery.of(context).size.height / 10,
-                          ),
-                          Text(tr("recovered")),
-                          Text(
-                              dataProvider.coronaData == null
-                                  ? initialData.recovered.toString()
-                                  : dataProvider.coronaData.recovered
-                                      .toString(),
-                              style: kCardNumberStyle),
-                        ],
-                      ),
-                    ),
+                    SuperellipseDataCard(
+                        color: color,
+                        width: width * .45,
+                        subtitle: tr("confirmed"),
+                        title: dataProvider.coronaData == null
+                            ? initialData.confirmed.toString()
+                            : dataProvider.coronaData.confirmed.toString(),
+                        image: 'assets/images/confirmed.png'),
+                    SuperellipseDataCard(
+                        color: color,
+                        width: width * .45,
+                        subtitle: tr("recovered"),
+                        title: dataProvider.coronaData == null
+                            ? initialData.recovered.toString()
+                            : dataProvider.coronaData.recovered.toString(),
+                        image: 'assets/images/recovered.png'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SuperellipseCard(
-                      color: themeProvider.isDark()
-                          ? kDarkCardColor
-                          : kLightCardColor,
-                      size: width * 0.45,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/deaths.png',
-                            height: MediaQuery.of(context).size.height / 10,
-                          ),
-                          Text(tr("deaths")),
-                          Text(
-                              dataProvider.coronaData == null
-                                  ? initialData.deaths.toString()
-                                  : dataProvider.coronaData.deaths.toString(),
-                              style: kCardNumberStyle),
-                        ],
-                      ),
-                    ),
-                    SuperellipseCard(
-                      color: themeProvider.isDark()
-                          ? kDarkCardColor
-                          : kLightCardColor,
-                      size: width * 0.45,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/percent.png',
-                            height: MediaQuery.of(context).size.height / 10,
-                          ),
-                          Text(tr("percent")),
-                          Text(
-                              dataProvider.coronaData == null
-                                  ? '${(initialData.deaths / initialData.confirmed * 100).toStringAsFixed(2)} \%'
-                                  : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} \%',
-                              style: kCardNumberStyle),
-                        ],
-                      ),
-                    ),
+                    SuperellipseDataCard(
+                        color: color,
+                        width: width * .45,
+                        subtitle: tr("deaths"),
+                        title: dataProvider.coronaData == null
+                            ? initialData.deaths.toString()
+                            : dataProvider.coronaData.deaths.toString(),
+                        image: 'assets/images/deaths.png'),
+                    SuperellipseDataCard(
+                        color: color,
+                        width: width * .45,
+                        subtitle: tr("percent"),
+                        title: dataProvider.coronaData == null
+                            ? '${(initialData.deaths / initialData.confirmed * 100).toStringAsFixed(2)} \%'
+                            : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} \%',
+                        image: 'assets/images/percent.png'),
                   ],
                 ),
-                // SizedBox(
-
-                //     height: height * .15,
-                //     child: NativeAdmob(
-                //       adUnitID:  kReleaseMode ? 'ca-app-pub-1906725567028861/5542477581' : 'ca-app-pub-3940256099942544/2247696110',
-                //       type: NativeAdmobType.banner,
-                //       loading: Center(
-                //           child: CircularProgressIndicator(
-                //               backgroundColor: kPrimaryColor)),
-                //       options: NativeAdmobOptions(
-                //           showMediaContent: false,
-                //           ratingColor: kPrimaryColor,
-                //           adLabelTextStyle: NativeTextStyle(
-                //               fontSize: 15,
-                //               color: kPrimaryColor,
-                //               backgroundColor: Colors.transparent,
-                //               isVisible: true),
-                //           headlineTextStyle:
-                //               NativeTextStyle(color: Colors.yellow),
-                //           advertiserTextStyle:
-                //               NativeTextStyle(color: Colors.blueAccent),
-                //           bodyTextStyle: NativeTextStyle(color: Colors.cyan),
-                //           callToActionStyle:
-                //               NativeTextStyle(color: Colors.deepOrange)),
-                //     )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text(tr('darkmode')),
+                    Text(tr('darkmode'), style: TextStyle(fontFamily: 'Almarai'),),
                     // switch for the dark theme with themeProvider
                     Switch(
-                        value: themeProvider.isDark()
-                            ? true
-                            : false,
+                        value: themeProvider.isDark() ? true : false,
                         onChanged: (value) {
                           themeProvider.switchTheme();
                         }),
-                                            Text(tr('arabic')),
+                    Text(tr('arabic'), style: TextStyle(fontFamily: 'Almarai'),),
 
                     // switch to change language with Easy Localization
                     Switch(

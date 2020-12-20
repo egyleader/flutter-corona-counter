@@ -9,10 +9,16 @@ const Color kPrimaryDarkColor = Color(0xff1A1B25);
 const Color kDarkCardColor = Color(0xff242535);
 
 const TextStyle kCardNumberStyle =
-    TextStyle(color: kPrimaryColor, fontSize: 30);
+    TextStyle(fontFamily: 'Almarai', color: kPrimaryColor, fontSize: 30);
 
 final TextStyle kTitleLightStyle = TextStyle(
-    fontSize: 30.0, fontWeight: FontWeight.w700, color: kPrimaryDarkColor);
+    fontFamily: 'Almarai',
+    fontSize: 30.0,
+    fontWeight: FontWeight.w700,
+    color: kPrimaryDarkColor);
 
-final TextStyle kTitleDarkStyle =
-    TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.white);
+final TextStyle kTitleDarkStyle = TextStyle(
+    fontFamily: 'Almarai',
+    fontSize: 30.0,
+    fontWeight: FontWeight.w700,
+    color: Colors.white);
