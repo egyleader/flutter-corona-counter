@@ -15,9 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    DataProvider().init();
-    // init data Provider
     FlutterSimCountryCode.simCountryCode.then((code) async {
+         await DataProvider().init();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     });

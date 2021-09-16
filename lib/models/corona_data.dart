@@ -19,14 +19,14 @@ class CoronaData {
   final int? recovered;
 
   factory CoronaData.fromJson(Map<String, dynamic> map) {
-    Country country = Countries.byName(map[0]['country']);
+    Country country = Countries.byName(map['response'][0]['country']);
 
     return CoronaData(
         country: country,
         code: country.alpha2Code.toString(),
-        confirmed: map[0]['confirmed'],
-        recovered: map[0]['recovered'],
-        deaths: map[0]['deaths'],
+        confirmed: map['response'][0]['cases']['total'],
+        recovered: map['response'][0]['cases']['recovered'],
+        deaths: map['response'][0]['deaths']['total'],
         lastChecked: DateTime.now().toString());
   }
 

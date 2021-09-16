@@ -34,10 +34,10 @@ class Prefs {
 
   static saveData(
       {required List<String> countriesData,
-      required List<String> countriesCodes}) {
+      required List<String> countriesNames}) {
     try {
       _prefsInstance?.setStringList('countriesData', countriesData);
-      _prefsInstance?.setStringList('countriesCodes', countriesCodes);
+      _prefsInstance?.setStringList('countriesCodes', countriesNames);
       return true;
     } catch (e) {
       print(e);
@@ -71,17 +71,17 @@ class Prefs {
   }
 
   static Future<bool> updateCountryData(
-      CoronaData countryData, String code) async {
+      CoronaData countryData, String name) async {
     List<String>? countriesStrings =
         _prefsInstance?.getStringList('countriesData');
 
-    List<String>? countriesCodes =
-        _prefsInstance?.getStringList('countriesCodes');
+    List<String>? countriesNames =
+        _prefsInstance?.getStringList('countriesNames');
 
-    if (countriesCodes == []) {
+    if (countriesNames == []) {
       saveData(
           countriesData: [CoronaData.coronaDataToJson(countryData)],
-          countriesCodes: [code]);
+          countriesNames: [name]);
       return true;
     }
 
@@ -93,15 +93,15 @@ class Prefs {
       }
     }
 
-    if (countriesCodes != null && countriesCodes.contains(countryData.code)) {
+    if (countriesNames != null && countriesNames.contains(countryData.code)) {
       countriesCoronaData.add(countryData);
-      countriesCodes.add(countryData.code);
+      countriesNames.add(countryData.code);
     }
 
     countriesStrings = CoronaData.coronaDataListToString(countriesCoronaData);
 
     saveData(
-        countriesData: countriesStrings, countriesCodes: countriesCodes ?? []);
+        countriesData: countriesStrings, countriesNames: countriesNames ?? []);
     return true;
   }
 
