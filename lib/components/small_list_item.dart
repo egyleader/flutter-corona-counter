@@ -1,12 +1,14 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:corona/components/superellipse_card.dart';
 
 class SmallListItem extends StatelessWidget {
-  SmallListItem({this.image, @required this.title, @required this.onpressed});
+  const SmallListItem({required this.image, required this.title, required this.onpressed});
 
   final String image;
   final String title;
-  final Function onpressed;
+  final Function()? onpressed;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -21,7 +23,7 @@ class SmallListItem extends StatelessWidget {
           Text(
             title,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 12.0),
+            style: const TextStyle(fontSize: 12.0),
           ),
         ],
       ),

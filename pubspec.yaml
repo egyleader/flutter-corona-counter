@@ -1,41 +1,33 @@
 name: corona
-description: a realtime reliable source to have CoronaVirus Stats and news all over the worl
-
-version: 1.0.0+1
+description: a realtime reliable source to have CoronaVirus Stats and news all over the world
+ 
+version: 1.1.0+1.1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.13.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  # cupertino_icons: ^0.1.2
-  http: ^0.12.0+4
-  # flutter_icons: ^1.0.0+1
-  flutter_country: ^0.0.3
-  provider: ^4.0.4
-  easy_localization: ^2.0.2
-  flutter_sim_country_code: ^0.0.3
-  superellipse_shape: ^0.1.5
-  shared_preferences: ^0.5.6+3
-  firebase_core: ^0.4.4+3
-  # firebase_admob: ^0.9.3+1
-  # ads: ^1.0.0
-  # flutter_native_admob: ^2.1.0
-  connectivity: ^0.4.8+2
+  connectivity: ^3.0.6
+  http: ^0.13.3
+  countries_utils: ^1.0.0
+  provider: ^6.0.0
+  easy_localization: ^3.0.0
+  flutter_sim_country_code: ^0.1.1
+  superellipse_shape: ^ 0.2.0-nullsafety.0
+  shared_preferences: ^2.0.7
 
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+ 
+dev_dependencies: 
+  flutter_lints: ^1.0.4
 
 flutter:
 
   uses-material-design: true
   assets:
-   - assets/langs/
+   - assets/translations/
    - assets/images/
  
   fonts:

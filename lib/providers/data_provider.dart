@@ -1,27 +1,41 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:corona/models/coronaData.dart';
-import 'package:corona/services/prefrences.dart';
+import 'package:corona/models/corona_data.dart';
+import 'package:corona/services/prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DataProvider extends ChangeNotifier {
-  var _coronaData;
+  late CoronaData _coronaData;
   get coronaData => _coronaData;
 
-  Prefrences prefrencesInstance = Prefrences();
+  Future<void> init() async {
+    String _code;
+    if (Prefs.instance?.getString('lastCountry') == null ||
+        Prefs.instance?.getString('lastCountry') == '') {
+      _code = await FlutterSimCountryCode.simCountryCode.toString();
+      Prefs.instance?.setString('lastCountry', _code);
+    } else {
+      _code = Prefs.instance?.getString('lastCountry') as String;
+    }
 
-  Future<CoronaData> getData({SharedPreferences preferences, String countryCode}) async {
-    List<String> countriesCodes = preferences.getStringList('countriesCodes');
+    Prefs.instance?.setStringList('countriesData', []);
+    Prefs.instance?.setStringList('countriesCodes', []);
+    DataProvider dataProvider = DataProvider();
+    _coronaData = await dataProvider.getData(countryCode: _code);
+  }
+
+  Future<CoronaData> getData({required String countryCode}) async {
+    List<String>? countriesCodes =
+        Prefs.instance?.getStringList('countriesCodes');
 
     // * if there is no cached data cereate it for this country
 
-    if (countriesCodes == null || countriesCodes.length == 0) {
-      _coronaData = await getDataFromAPI(countryCode);
+    if (countriesCodes == null || countriesCodes.isEmpty) {
+      _coronaData = CoronaData.fromJson(await getDataFromAPI(countryCode));
 
-      prefrencesInstance.updateCountryData(
-          preferences, _coronaData, countryCode);
+      Prefs.updateCountryData(_coronaData, countryCode);
       notifyListeners();
 
       return _coronaData;
@@ -30,14 +44,6 @@ class DataProvider extends ChangeNotifier {
     // * if there is maching data fetch it
 
     else if (countriesCodes.contains(countryCode)) {
-      List<String> countriesStrings =
-          preferences.getStringList('countriesData');
-      List<CoronaData> coronaList =
-          prefrencesInstance.countriesStringToCoronaData(countriesStrings);
-
-      _coronaData =
-          prefrencesInstance.getCountryByCode(countryCode, coronaList);
-
       notifyListeners();
 
       return _coronaData;
@@ -46,46 +52,34 @@ class DataProvider extends ChangeNotifier {
     // * data is not cached , get it from internet and cache it
 
     else {
-      _coronaData = await getDataFromAPI(countryCode);
-      prefrencesInstance.updateCountryData(preferences, _coronaData, countryCode);
+      _coronaData = CoronaData.fromJson(await getDataFromAPI(countryCode));
+      Prefs.updateCountryData(_coronaData, countryCode);
     }
     notifyListeners();
 
     return _coronaData;
   }
 
-  Future<CoronaData> getDataFromAPI(String code) async {
+  Future<Map<String, dynamic>> getDataFromAPI(String code) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      return CoronaData(
-          code: '-',
-          country: '-',
-          confirmed: 0,
-          deaths: 0,
-          lastChecked: '-',
-          recovered: 0);
+      return {};
     }
 
     try {
       final response = await http.get(
-          'https://covid-19-data.p.rapidapi.com/country/code?code=$code',
+          Uri(
+              path:
+                  'https://covid-19-data.p.rapidapi.com/country/code?code=$code'),
           headers: {
             "x-rapidapi-host": "covid-19-data.p.rapidapi.com",
-            "x-rapidapi-key": "c75168236emsh249d0232e5ef7cap156f3ajsnaa5b9cbe891f",
+            "x-rapidapi-key":
+                "c75168236emsh249d0232e5ef7cap156f3ajsnaa5b9cbe891f",
           });
-      List<dynamic> data = json.decode(response.body);
-      _coronaData = CoronaData(
-          country: data[0]['country'],
-          code: code,
-          confirmed: data[0]['confirmed'],
-          recovered: data[0]['recovered'],
-          deaths: data[0]['deaths'],
-          lastChecked: DateTime.now().toString());
-      notifyListeners();
+      return json.decode(response.body);
     } catch (e) {
       print(e);
+      return {};
     }
-
-    return _coronaData;
   }
 }

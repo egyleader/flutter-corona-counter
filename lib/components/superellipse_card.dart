@@ -1,10 +1,12 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:corona/const.dart';
 import 'package:superellipse_shape/superellipse_shape.dart';
 import '../const.dart';
 
 class SuperellipseCard extends StatelessWidget {
-  SuperellipseCard({
+  const SuperellipseCard({
     this.color = kPrimaryColor,
     this.radius = 28,
     this.size = 100,
@@ -15,8 +17,8 @@ class SuperellipseCard extends StatelessWidget {
   final Color color;
   final double radius;
   final double size;
-  final Widget child;
-  final ImageProvider image;
+  final Widget? child;
+  final ImageProvider? image;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -26,11 +28,7 @@ class SuperellipseCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
       ),
       clipBehavior: Clip.hardEdge,
-      child: Container(
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         image: image != null ? image : AssetImage('assets/images/logo.png'),
-        //         fit: BoxFit.cover)),
+      child: SizedBox(
         width: size,
         height: size,
         child: Padding(

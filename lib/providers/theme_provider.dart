@@ -3,10 +3,10 @@ import 'package:corona/themes/light_theme.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData _selectedTheme;
+  late ThemeData _selectedTheme;
 
-  ThemeProvider({bool isDarkMode}) {
-    this._selectedTheme = isDarkMode ? darkTheme : lightTheme;
+  ThemeProvider({required bool isDarkMode}) {
+    _selectedTheme = isDarkMode ? darkTheme : lightTheme;
   }
 
   getTheme() => _selectedTheme;

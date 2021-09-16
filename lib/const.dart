@@ -11,13 +11,13 @@ const Color kDarkCardColor = Color(0xff242535);
 const TextStyle kCardNumberStyle =
     TextStyle(fontFamily: 'Almarai', color: kPrimaryColor, fontSize: 30);
 
-final TextStyle kTitleLightStyle = TextStyle(
+const TextStyle kTitleLightStyle = TextStyle(
     fontFamily: 'Almarai',
     fontSize: 30.0,
     fontWeight: FontWeight.w700,
     color: kPrimaryDarkColor);
 
-final TextStyle kTitleDarkStyle = TextStyle(
+const TextStyle kTitleDarkStyle = TextStyle(
     fontFamily: 'Almarai',
     fontSize: 30.0,
     fontWeight: FontWeight.w700,
