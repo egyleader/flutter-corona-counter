@@ -14,8 +14,7 @@ import 'package:countries_utils/flutter_country.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider =
-        Provider.of<ThemeProvider>(context, listen: false);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
     DataProvider dataProvider = Provider.of<DataProvider>(context);
 
@@ -26,8 +25,7 @@ class HomePage extends StatelessWidget {
     final List<Country> countries = Countries.all();
 
     final color = themeProvider.isDark() ? kDarkCardColor : kLightCardColor;
-    int index = countries
-        .indexWhere((country) => country.alpha2Code == dataProvider.coronaData.code);
+    int index = countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.code);
 
     return SafeArea(
       child: Scaffold(
@@ -48,9 +46,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(width: width * 0.03),
                     Text(
                       tr('title'),
-                      style: themeProvider.isDark()
-                          ? kTitleDarkStyle
-                          : kTitleLightStyle,
+                      style: themeProvider.isDark() ? kTitleDarkStyle : kTitleLightStyle,
                     ),
                   ],
                 ),
@@ -58,25 +54,20 @@ class HomePage extends StatelessWidget {
                   height: height * 0.2,
                   child: CupertinoPicker(
                       onSelectedItemChanged: (i) async {
-                        ConnectivityResult connectivityResult =
-                            await (Connectivity().checkConnectivity());
+                        ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
                         if (connectivityResult == ConnectivityResult.none) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(tr('disconnected'))));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
                         }
                         index = i;
-                        // await prefrences.updateCountryData(prefrencesInstance,
+                        // await prefrences.updateCoronaData(prefrencesInstance,
                         //     data, countries[index].alpha2Code.toString());
                       },
-                      scrollController:
-                          FixedExtentScrollController(initialItem: index),
+                      scrollController: FixedExtentScrollController(initialItem: index),
                       offAxisFraction: .1,
                       diameterRatio: 1.1,
                       itemExtent: 50.0,
                       magnification: 1.4,
-                      backgroundColor: themeProvider.getTheme() == darkTheme
-                          ? kPrimaryDarkColor
-                          : Colors.white,
+                      backgroundColor: themeProvider.getTheme() == darkTheme ? kPrimaryDarkColor : Colors.white,
                       squeeze: 1.45,
                       useMagnifier: true,
                       looping: true,
@@ -84,10 +75,7 @@ class HomePage extends StatelessWidget {
                           .map((country) => Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  EasyLocalization.of(context)
-                                              ?.locale
-                                              .languageCode ==
-                                          "en"
+                                  EasyLocalization.of(context)?.locale.languageCode == "en"
                                       ? '${country.name} ${country.flagIcon}'
                                       : '${country.nativeName != null ? country.translate(context.locale.languageCode) : country.name}  ${country.flagIcon}',
                                   style: Theme.of(context).textTheme.bodyText1,
@@ -108,7 +96,7 @@ class HomePage extends StatelessWidget {
                         color: color,
                         width: width * .45,
                         subtitle: tr("recovered"),
-                        title:  dataProvider.coronaData.recovered.toString(),
+                        title: dataProvider.coronaData.recovered.toString(),
                         image: 'assets/images/recovered.png'),
                   ],
                 ),
@@ -151,21 +139,12 @@ class HomePage extends StatelessWidget {
 
                     // switch to change language with Easy Localization
                     Switch(
-                        value:
-                            EasyLocalization.of(context)?.locale.languageCode ==
-                                    "ar"
-                                ? false
-                                : true,
+                        value: EasyLocalization.of(context)?.locale.languageCode == "ar" ? false : true,
                         onChanged: (value) {
-                          if (EasyLocalization.of(context)
-                                  ?.locale
-                                  .languageCode ==
-                              "ar") {
-                            EasyLocalization.of(context)
-                                ?.setLocale(Locale("en"));
+                          if (EasyLocalization.of(context)?.locale.languageCode == "ar") {
+                            EasyLocalization.of(context)?.setLocale(Locale("en"));
                           } else {
-                            EasyLocalization.of(context)
-                                ?.setLocale(Locale("ar"));
+                            EasyLocalization.of(context)?.setLocale(Locale("ar"));
                           }
                         }),
                   ],
