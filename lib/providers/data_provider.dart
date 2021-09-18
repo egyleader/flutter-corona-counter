@@ -6,11 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sim_country_code/flutter_sim_country_code.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DataProvider extends ChangeNotifier {
   late CoronaData _coronaData;
   get coronaData => _coronaData;
-
+  
+  /// inits the data on app launch ..
+  /// 
+  /// it searches the [SharedPreferences] for 'lastCountry' and 
+  /// if it is found load the data for that country 
+  /// if not get the country from sim card location 
   Future<void> init() async {
     String _countryName = Prefs.instance.getString('lastCountry') ?? '';
 
@@ -44,7 +50,7 @@ class DataProvider extends ChangeNotifier {
           });
       return json.decode(response.body);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return {};
     }
   }

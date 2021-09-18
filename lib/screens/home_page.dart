@@ -1,9 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:corona/components/superellipse_data_card.dart';
-import 'package:corona/const.dart';
 import 'package:corona/providers/data_provider.dart';
 import 'package:corona/providers/theme_provider.dart';
-import 'package:corona/themes/dark_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:countries_utils/models/country.dart';
 import 'package:flutter/material.dart';
@@ -12,20 +10,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:countries_utils/flutter_country.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-
+    
     DataProvider dataProvider = Provider.of<DataProvider>(context);
+    
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     final width = MediaQuery.of(context).size.width - 20.0;
 
     final height = MediaQuery.of(context).size.height - 20.0;
 
     final List<Country> countries = Countries.all();
-
-    final color = themeProvider.isDark() ? kDarkCardColor : kLightCardColor;
-    int index = countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.code);
+    int index = countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.country.alpha2Code);
 
     return SafeArea(
       child: Scaffold(
@@ -46,7 +45,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(width: width * 0.03),
                     Text(
                       tr('title'),
-                      style: themeProvider.isDark() ? kTitleDarkStyle : kTitleLightStyle,
+                      style: Theme.of(context).primaryTextTheme.headline1,
                     ),
                   ],
                 ),
@@ -59,15 +58,13 @@ class HomePage extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
                         }
                         index = i;
-                        // await prefrences.updateCoronaData(prefrencesInstance,
-                        //     data, countries[index].alpha2Code.toString());
                       },
                       scrollController: FixedExtentScrollController(initialItem: index),
                       offAxisFraction: .1,
                       diameterRatio: 1.1,
                       itemExtent: 50.0,
                       magnification: 1.4,
-                      backgroundColor: themeProvider.getTheme() == darkTheme ? kPrimaryDarkColor : Colors.white,
+                      backgroundColor: Theme.of(context).primaryColor,
                       squeeze: 1.45,
                       useMagnifier: true,
                       looping: true,
@@ -87,13 +84,13 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     SuperellipseDataCard(
-                        color: color,
+                        color: Theme.of(context).cardColor,
                         width: width * .45,
                         subtitle: tr("confirmed"),
                         title: dataProvider.coronaData.confirmed.toString(),
                         image: 'assets/images/confirmed.png'),
                     SuperellipseDataCard(
-                        color: color,
+                        color: Theme.of(context).cardColor,
                         width: width * .45,
                         subtitle: tr("recovered"),
                         title: dataProvider.coronaData.recovered.toString(),
@@ -104,13 +101,13 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     SuperellipseDataCard(
-                        color: color,
+                        color: Theme.of(context).cardColor,
                         width: width * .45,
                         subtitle: tr("deaths"),
                         title: dataProvider.coronaData.deaths.toString(),
                         image: 'assets/images/deaths.png'),
                     SuperellipseDataCard(
-                        color: color,
+                        color: Theme.of(context).cardColor,
                         width: width * .45,
                         subtitle: tr("percent"),
                         title: dataProvider.coronaData == null
@@ -134,7 +131,7 @@ class HomePage extends StatelessWidget {
                         }),
                     Text(
                       tr('arabic'),
-                      style: TextStyle(fontFamily: 'Almarai'),
+                      style: const TextStyle(fontFamily: 'Almarai'),
                     ),
 
                     // switch to change language with Easy Localization
@@ -142,9 +139,9 @@ class HomePage extends StatelessWidget {
                         value: EasyLocalization.of(context)?.locale.languageCode == "ar" ? false : true,
                         onChanged: (value) {
                           if (EasyLocalization.of(context)?.locale.languageCode == "ar") {
-                            EasyLocalization.of(context)?.setLocale(Locale("en"));
+                            EasyLocalization.of(context)?.setLocale(const Locale("en"));
                           } else {
-                            EasyLocalization.of(context)?.setLocale(Locale("ar"));
+                            EasyLocalization.of(context)?.setLocale(const Locale("ar"));
                           }
                         }),
                   ],

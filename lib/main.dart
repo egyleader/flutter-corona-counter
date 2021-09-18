@@ -1,5 +1,6 @@
 
 import 'package:corona/providers/data_provider.dart';
+import 'package:corona/screens/home_page.dart';
 import 'package:corona/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:corona/providers/theme_provider.dart';
@@ -12,7 +13,7 @@ void main() {
       path: 'assets/translations',
       supportedLocales: const [Locale('en'), Locale('ar')],
       useOnlyLangCode: true,
-      startLocale: Locale('ar'),
+      startLocale: const Locale('ar'),
       saveLocale: true,
       child: MultiProvider(
         providers: [
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         theme: themeProvider.getTheme(),
         home: const SplashScreen(),
         routes: {
-          // '/home': (context)=> HomePage(CoronaData data),
+          '/home': (context)=> const HomePage(),
           '/splash': (context) => const SplashScreen()
         });
   }
