@@ -14,9 +14,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     DataProvider dataProvider = Provider.of<DataProvider>(context);
-    
+
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     final width = MediaQuery.of(context).size.width - 20.0;
@@ -58,6 +57,7 @@ class HomePage extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
                         }
                         index = i;
+                        dataProvider.getCoronaData(countries[index].name.toString());
                       },
                       scrollController: FixedExtentScrollController(initialItem: index),
                       offAxisFraction: .1,
