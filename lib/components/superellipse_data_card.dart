@@ -1,5 +1,4 @@
 import 'package:corona/components/superellipse_card.dart';
-import 'package:corona/const.dart';
 import 'package:flutter/material.dart';
 
 class SuperellipseDataCard extends StatelessWidget {
@@ -34,7 +33,7 @@ class SuperellipseDataCard extends StatelessWidget {
             subtitle,
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          Text(title, style: kCardNumberStyle),
+          Text(title, style: Theme.of(context).textTheme.bodyText1),
         ],
       ),
     );

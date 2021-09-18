@@ -22,8 +22,18 @@ class HomePage extends StatelessWidget {
 
     final height = MediaQuery.of(context).size.height - 20.0;
 
-    final List<Country> countries = Countries.all();
-    int index = countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.country.alpha2Code);
+    // cpnvery available countries name list to a list of Country opjects
+    final List<Country> _countries = [];
+
+    dataProvider.countriesAvailable.forEach((country) {
+      try {
+        _countries.add(Countries.byName(country));
+      } catch (e) {
+        debugPrint('country : $country not found ');
+      }
+    });
+
+    int index = _countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.country.alpha2Code);
 
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -57,7 +67,7 @@ class HomePage extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
                           }
                           index = i;
-                          dataProvider.getCoronaData(countries[index].name.toString());
+                          dataProvider.getCountryCoronaData(_countries[index].name.toString());
                         },
                         scrollController: FixedExtentScrollController(initialItem: index),
                         offAxisFraction: .1,
@@ -68,7 +78,7 @@ class HomePage extends StatelessWidget {
                         squeeze: 1.45,
                         useMagnifier: true,
                         looping: true,
-                        children: countries
+                        children: _countries
                             .map((country) => Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
