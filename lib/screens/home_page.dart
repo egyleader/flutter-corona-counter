@@ -25,132 +25,131 @@ class HomePage extends StatelessWidget {
     final List<Country> countries = Countries.all();
     int index = countries.indexWhere((country) => country.alpha2Code == dataProvider.coronaData.country.alpha2Code);
 
-    return SafeArea(
-      child: Scaffold(
-          body: Builder(
-        builder: (ctx) => SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Image.asset(
-                      'assets/images/logo.png',
-                      height: 64.0,
-                    ),
-                    SizedBox(width: width * 0.03),
-                    Text(
-                      tr('title'),
-                      style: Theme.of(context).primaryTextTheme.headline1,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: height * 0.2,
-                  child: CupertinoPicker(
-                      onSelectedItemChanged: (i) async {
-                        ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-                        if (connectivityResult == ConnectivityResult.none) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
-                        }
-                        index = i;
-                        dataProvider.getCoronaData(countries[index].name.toString());
-                      },
-                      scrollController: FixedExtentScrollController(initialItem: index),
-                      offAxisFraction: .1,
-                      diameterRatio: 1.1,
-                      itemExtent: 50.0,
-                      magnification: 1.4,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      squeeze: 1.45,
-                      useMagnifier: true,
-                      looping: true,
-                      children: countries
-                          .map((country) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  EasyLocalization.of(context)?.locale.languageCode == "en"
-                                      ? '${country.name} ${country.flagIcon}'
-                                      : '${country.nativeName != null ? country.translate(context.locale.languageCode) : country.name}  ${country.flagIcon}',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              ))
-                          .toList()),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    SuperellipseDataCard(
-                        color: Theme.of(context).cardColor,
-                        width: width * .45,
-                        subtitle: tr("confirmed"),
-                        title: dataProvider.coronaData.confirmed.toString(),
-                        image: 'assets/images/confirmed.png'),
-                    SuperellipseDataCard(
-                        color: Theme.of(context).cardColor,
-                        width: width * .45,
-                        subtitle: tr("recovered"),
-                        title: dataProvider.coronaData.recovered.toString(),
-                        image: 'assets/images/recovered.png'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    SuperellipseDataCard(
-                        color: Theme.of(context).cardColor,
-                        width: width * .45,
-                        subtitle: tr("deaths"),
-                        title: dataProvider.coronaData.deaths.toString(),
-                        image: 'assets/images/deaths.png'),
-                    SuperellipseDataCard(
-                        color: Theme.of(context).cardColor,
-                        width: width * .45,
-                        subtitle: tr("percent"),
-                        title: dataProvider.coronaData == null
-                            ? '-'
-                            : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} %',
-                        image: 'assets/images/percent.png'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      tr('darkmode'),
-                      style: const TextStyle(fontFamily: 'Almarai'),
-                    ),
-                    // switch for the dark theme with themeProvider
-                    Switch(
-                        value: themeProvider.isDark() ? true : false,
-                        onChanged: (value) {
-                          themeProvider.switchTheme();
-                        }),
-                    Text(
-                      tr('arabic'),
-                      style: const TextStyle(fontFamily: 'Almarai'),
-                    ),
-
-                    // switch to change language with Easy Localization
-                    Switch(
-                        value: EasyLocalization.of(context)?.locale.languageCode == "ar" ? false : true,
-                        onChanged: (value) {
-                          if (EasyLocalization.of(context)?.locale.languageCode == "ar") {
-                            EasyLocalization.of(context)?.setLocale(const Locale("en"));
-                          } else {
-                            EasyLocalization.of(context)?.setLocale(const Locale("ar"));
+    return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Builder(
+          builder: (ctx) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/images/logo.png',
+                        height: 64.0,
+                      ),
+                      SizedBox(width: width * 0.03),
+                      Text(
+                        tr('title'),
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.2,
+                    child: CupertinoPicker(
+                        onSelectedItemChanged: (i) async {
+                          ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+                          if (connectivityResult == ConnectivityResult.none) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(tr('disconnected'))));
                           }
-                        }),
-                  ],
-                )
-              ],
+                          index = i;
+                          dataProvider.getCoronaData(countries[index].name.toString());
+                        },
+                        scrollController: FixedExtentScrollController(initialItem: index),
+                        offAxisFraction: .1,
+                        diameterRatio: 1.1,
+                        itemExtent: 50.0,
+                        magnification: 1.4,
+                        backgroundColor: Theme.of(context).backgroundColor,
+                        squeeze: 1.45,
+                        useMagnifier: true,
+                        looping: true,
+                        children: countries
+                            .map((country) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    EasyLocalization.of(context)?.locale.languageCode == "en"
+                                        ? '${country.name} ${country.flagIcon}'
+                                        : '${country.nativeName != null ? country.translate(context.locale.languageCode) : country.name}  ${country.flagIcon}',
+                                    style: Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ))
+                            .toList()),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SuperellipseDataCard(
+                          color: Theme.of(context).cardColor,
+                          width: width * .45,
+                          subtitle: tr("confirmed"),
+                          title: dataProvider.coronaData.confirmed.toString(),
+                          image: 'assets/images/confirmed.png'),
+                      SuperellipseDataCard(
+                          color: Theme.of(context).cardColor,
+                          width: width * .45,
+                          subtitle: tr("recovered"),
+                          title: dataProvider.coronaData.recovered.toString(),
+                          image: 'assets/images/recovered.png'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SuperellipseDataCard(
+                          color: Theme.of(context).cardColor,
+                          width: width * .45,
+                          subtitle: tr("deaths"),
+                          title: dataProvider.coronaData.deaths.toString(),
+                          image: 'assets/images/deaths.png'),
+                      SuperellipseDataCard(
+                          color: Theme.of(context).cardColor,
+                          width: width * .45,
+                          subtitle: tr("percent"),
+                          title: dataProvider.coronaData == null
+                              ? '-'
+                              : '${(dataProvider.coronaData.deaths / dataProvider.coronaData.confirmed * 100).toStringAsFixed(2)} %',
+                          image: 'assets/images/percent.png'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        tr('darkmode'),
+                        style: const TextStyle(fontFamily: 'Almarai'),
+                      ),
+                      // switch for the dark theme with themeProvider
+                      Switch(
+                          value: themeProvider.isDark() ? true : false,
+                          onChanged: (value) {
+                            themeProvider.switchTheme();
+                          }),
+                      Text(
+                        tr('arabic'),
+                        style: const TextStyle(fontFamily: 'Almarai'),
+                      ),
+
+                      // switch to change language with Easy Localization
+                      Switch(
+                          value: EasyLocalization.of(context)?.locale.languageCode == "ar" ? false : true,
+                          onChanged: (value) {
+                            if (EasyLocalization.of(context)?.locale.languageCode == "ar") {
+                              EasyLocalization.of(context)?.setLocale(const Locale("en"));
+                            } else {
+                              EasyLocalization.of(context)?.setLocale(const Locale("ar"));
+                            }
+                          }),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      )),
-    );
+        ));
   }
 }

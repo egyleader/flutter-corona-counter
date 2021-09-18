@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-const Color kLightCardColor = Color(0xffE3E9ED);
 const Color kPrimaryColor = Color(0xffEB5569);
 
-const TextStyle kTitleLightStyle = TextStyle(
-    fontFamily: 'Almarai',
-    fontSize: 30.0,
-    fontWeight: FontWeight.w700);
+
+const TextStyle kTitleLightStyle =
+    TextStyle(fontFamily: 'Almarai', fontSize: 25.0, fontWeight: FontWeight.w700, color: Colors.white);
 
 final lightTheme = ThemeData.light().copyWith(
   primaryColor: kPrimaryColor,
-  cardColor: kLightCardColor ,
-  primaryTextTheme:const TextTheme(headline1: kTitleLightStyle),
+  cardColor: const Color(0xffDFAC29),
+  backgroundColor: const Color(0xffe9c46a),
   textTheme: const TextTheme(
-    bodyText1:TextStyle(fontFamily:'Almarai', fontSize: 20.0)
-  ),
+      headline1: kTitleLightStyle ,
+      bodyText1: TextStyle(fontFamily: 'Almarai', fontSize: 20.0)),
 );
