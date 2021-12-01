@@ -3,7 +3,11 @@
 ![enter image description here](assets/_screens/01.jpg)
 ![enter image description here](assets/_screens/02.jpg)
 ![enter image description here](assets/_screens/03.jpg)
+<<<<<<< HEAD
 ![enter image description here](assets/_screens/04.jpg)
+=======
+
+>>>>>>> 46d6a9e (refactor: :art: refactoring & final touches)
 
 This app was one of my first apps built using flutter and provider for state management 
 it connects to the [Covid-19 Api](https://rapidapi.com/api-sports/api/covid-193/)
@@ -18,4 +22,8 @@ gets the data for that country and save it in the Shared preferences , it also h
  5. foundamentals of how to [document](https://dart.dev/guides/language/effective-dart/documentation) and [test](https://dart.dev/guides/testing) my app 
 
 
+<<<<<<< HEAD
 this app was indented for training purposes only not for production ready environment ,, so all the code is open source and you can event download the apk from [apkpure.com](https://apkpure.com/p/com.invign.corona)
+=======
+this app was indented for training purposes only not for production ready environment ,, so all the code is open source and you can even download the apk from [apkpure.com](https://apkpure.com/p/com.invign.corona)
+>>>>>>> 46d6a9e (refactor: :art: refactoring & final touches)
