@@ -1,4 +1,3 @@
-
 import 'package:corona/providers/data_provider.dart';
 import 'package:corona/screens/home_page.dart';
 import 'package:corona/screens/splash_screen.dart';
@@ -7,21 +6,22 @@ import 'package:corona/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-void main() {
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   return runApp(
     EasyLocalization(
       path: 'assets/translations',
       supportedLocales: const [Locale('en'), Locale('ar')],
       useOnlyLangCode: true,
-      startLocale: const Locale('ar'),
       saveLocale: true,
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<ThemeProvider>(
             create: (context) => ThemeProvider(isDarkMode: true),
           ),
-          ChangeNotifierProvider<DataProvider>(
-              create: (context) => DataProvider())
+          ChangeNotifierProvider<DataProvider>(create: (context) => DataProvider())
         ],
         child: const MyApp(),
       ),
@@ -43,9 +43,6 @@ class MyApp extends StatelessWidget {
         title: 'corona',
         theme: themeProvider.getTheme(),
         home: const SplashScreen(),
-        routes: {
-          '/home': (context)=> const HomePage(),
-          '/splash': (context) => const SplashScreen()
-        });
+        routes: {'/home': (context) => const HomePage(), '/splash': (context) => const SplashScreen()});
   }
 }
