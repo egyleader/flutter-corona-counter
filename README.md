@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Corona Counter Flutter App
 ![enter image description here](assets/_screens/01.jpg)
@@ -5,6 +6,13 @@
 ![enter image description here](assets/_screens/03.jpg)
 
 
+=======
+# Corona Counter Flutter App
+![enter image description here](assets/_screens/01.jpg)
+![enter image description here](assets/_screens/02.jpg)
+![enter image description here](assets/_screens/03.jpg)
+
+>>>>>>> 184c29886b67714581d48f1a9581d7a0343168e9
 This app was one of my first apps built using flutter and provider for state management 
 it connects to the [Covid-19 Api](https://rapidapi.com/api-sports/api/covid-193/)
 gets the data for that country and save it in the Shared preferences , it also handles offline state and caching data for one day before reloading it to reserve api data . 
@@ -17,5 +25,10 @@ gets the data for that country and save it in the Shared preferences , it also h
  4. handling connection errors and offline state all over the app using [Connectivity](https://pub.dev/packages/connectivity)
  5. foundamentals of how to [document](https://dart.dev/guides/language/effective-dart/documentation) and [test](https://dart.dev/guides/testing) my app 
 
+<<<<<<< HEAD
 
 this app was indented for training purposes only not for production ready environment ,, so all the code is open source and you can even download the apk from [apkpure.com](https://apkpure.com/p/com.invign.corona)
+=======
+this app was indented for training purposes only not for production ready environment ,, so all the code is open source and you can even download the apk from [apkpure.com](https://apkpure.com/p/com.invign.corona)
+>>>>>>> 46d6a9e (refactor: :art: refactoring & final touches)
+>>>>>>> 184c29886b67714581d48f1a9581d7a0343168e9
